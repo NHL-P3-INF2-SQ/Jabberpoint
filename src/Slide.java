@@ -74,7 +74,7 @@ public class Slide {
 	 * @param message The text content
 	 */
 	public void append(int level, String message) {
-		this.append(new TextItem(level, message));
+		this.append(SlideItemFactory.createTextItem(level, message));
 	}
 
 	/**

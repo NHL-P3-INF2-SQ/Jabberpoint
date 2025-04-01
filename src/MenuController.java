@@ -3,7 +3,7 @@ import java.awt.Frame;
 import java.awt.Menu;
 import java.awt.MenuItem;
 import java.awt.MenuShortcut;
-import java.io.IOException;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 /**
@@ -43,19 +43,11 @@ public class MenuController extends MenuBar {
 	private static final String PREV = "Prev";
 	private static final String SAVE = "Save";
 	private static final String VIEW = "View";
-	
-	/**
-	 * File names
-	 */
-	private static final String TESTFILE = "test.xml";
-	private static final String SAVEFILE = "dump.xml";
-	
-	/**
-	 * Error messages
-	 */
-	private static final String IOEX = "IO Exception: ";
-	private static final String LOADERR = "Load Error";
-	private static final String SAVEERR = "Save Error";
+
+	private final Command newPresentationCommand;
+	private final Command openPresentationCommand;
+	private final Command savePresentationCommand;
+	private final Command exitPresentationCommand;
 
 	/**
 	 * Creates a new MenuController with the specified frame and presentation.
@@ -66,6 +58,12 @@ public class MenuController extends MenuBar {
 	public MenuController(Frame frame, Presentation presentation) {
 		this.parent = frame;
 		this.presentation = presentation;
+		
+		PresentationReceiver receiver = new PresentationReceiver(presentation);
+		this.newPresentationCommand = new NewPresentationCommand(receiver);
+		this.openPresentationCommand = new OpenPresentationCommand(receiver);
+		this.savePresentationCommand = new SavePresentationCommand(receiver);
+		this.exitPresentationCommand = new ExitPresentationCommand(receiver);
 		
 		// Create and configure menus
 		createFileMenu();
@@ -80,46 +78,20 @@ public class MenuController extends MenuBar {
 		Menu fileMenu = new Menu(FILE);
 		
 		// Open menu item
-		MenuItem openItem = createMenuItem(OPEN);
-		openItem.addActionListener(e -> {
-			this.presentation.clear();
-			Accessor xmlAccessor = new XMLAccessor();
-			try {
-				xmlAccessor.loadFile(this.presentation, TESTFILE);
-				this.presentation.setSlideNumber(0);
-			} catch (IOException exc) {
-				JOptionPane.showMessageDialog(this.parent, IOEX + exc, 
-					LOADERR, JOptionPane.ERROR_MESSAGE);
-			}
-			this.parent.repaint();
-		});
+		MenuItem openItem = createMenuItem(OPEN, 'O', event -> openPresentationCommand.execute());
 		fileMenu.add(openItem);
 		
 		// New menu item
-		MenuItem newItem = createMenuItem(NEW);
-		newItem.addActionListener(e -> {
-			this.presentation.clear();
-			this.parent.repaint();
-		});
+		MenuItem newItem = createMenuItem(NEW, 'N', event -> newPresentationCommand.execute());
 		fileMenu.add(newItem);
 		
 		// Save menu item
-		MenuItem saveItem = createMenuItem(SAVE);
-		saveItem.addActionListener(e -> {
-			Accessor xmlAccessor = new XMLAccessor();
-			try {
-				xmlAccessor.saveFile(this.presentation, SAVEFILE);
-			} catch (IOException exc) {
-				JOptionPane.showMessageDialog(this.parent, IOEX + exc, 
-					SAVEERR, JOptionPane.ERROR_MESSAGE);
-			}
-		});
+		MenuItem saveItem = createMenuItem(SAVE, 'S', event -> savePresentationCommand.execute());
 		fileMenu.add(saveItem);
 		
 		// Exit menu item
 		fileMenu.addSeparator();
-		MenuItem exitItem = createMenuItem(EXIT);
-		exitItem.addActionListener(e -> this.presentation.exit(0));
+		MenuItem exitItem = createMenuItem(EXIT, 'Q', event -> exitPresentationCommand.execute());
 		fileMenu.add(exitItem);
 		
 		add(fileMenu);
@@ -132,22 +104,19 @@ public class MenuController extends MenuBar {
 		Menu viewMenu = new Menu(VIEW);
 		
 		// Next slide menu item
-		MenuItem nextItem = createMenuItem(NEXT);
-		nextItem.addActionListener(e -> this.presentation.nextSlide());
+		MenuItem nextItem = createMenuItem(NEXT, '>', event -> presentation.nextSlide());
 		viewMenu.add(nextItem);
 		
 		// Previous slide menu item
-		MenuItem prevItem = createMenuItem(PREV);
-		prevItem.addActionListener(e -> this.presentation.prevSlide());
+		MenuItem prevItem = createMenuItem(PREV, '<', event -> presentation.prevSlide());
 		viewMenu.add(prevItem);
 		
 		// Go to slide menu item
-		MenuItem gotoItem = createMenuItem(GOTO);
-		gotoItem.addActionListener(e -> {
+		MenuItem gotoItem = createMenuItem(GOTO, 'G', event -> {
 			String pageNumberStr = JOptionPane.showInputDialog(PAGENR);
 			try {
 				int pageNumber = Integer.parseInt(pageNumberStr);
-				this.presentation.setSlideNumber(pageNumber - 1);
+				presentation.setSlideNumber(pageNumber - 1);
 			} catch (NumberFormatException ex) {
 				// Ignore invalid input
 			}
@@ -162,8 +131,7 @@ public class MenuController extends MenuBar {
 	 */
 	private void createHelpMenu() {
 		Menu helpMenu = new Menu(HELP);
-		MenuItem aboutItem = createMenuItem(ABOUT);
-		aboutItem.addActionListener(e -> AboutBox.show(this.parent));
+		MenuItem aboutItem = createMenuItem(ABOUT, 'A', event -> AboutBox.show(parent));
 		helpMenu.add(aboutItem);
 		setHelpMenu(helpMenu);
 	}
@@ -172,9 +140,13 @@ public class MenuController extends MenuBar {
 	 * Creates a menu item with the specified name and a keyboard shortcut.
 	 *
 	 * @param name The name of the menu item
+	 * @param shortcut The keyboard shortcut
+	 * @param listener The action listener
 	 * @return The created MenuItem
 	 */
-	private MenuItem createMenuItem(String name) {
-		return new MenuItem(name, new MenuShortcut(name.charAt(0)));
+	private MenuItem createMenuItem(String name, char shortcut, ActionListener listener) {
+		MenuItem menuItem = new MenuItem(name, new MenuShortcut(shortcut));
+		menuItem.addActionListener(listener);
+		return menuItem;
 	}
 }

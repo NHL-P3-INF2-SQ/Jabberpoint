@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 
@@ -57,15 +59,70 @@ public class BitmapItem extends SlideItem {
     /**
      * Loads the image from the specified file path.
      */
-    private void loadImage() {
-        if (this.imagePath != null) {
-            try {
-                this.bufferedImage = ImageIO.read(new File(this.imagePath));
-            } catch (IOException e) {
-                System.err.println(ERROR_FILE_PREFIX + this.imagePath + ERROR_NOT_FOUND);
-            }
-        }
-    }
+// Load the image from various sources
+	private void loadImage() {
+		if (imagePath == null) {
+			return;
+		}
+		
+		bufferedImage = null;
+		
+		// Try to load from file system
+		try {
+			File file = new File(imagePath);
+			if (file.exists()) {
+				bufferedImage = ImageIO.read(file);
+				if (bufferedImage != null) {
+					return;
+				}
+			}
+		} catch (IOException e) {
+			System.err.println("Error loading from file: " + e.getMessage());
+		}
+		
+		// Try to load from resources
+		try {
+			// Try to load directly as resource
+			URL url = getClass().getResource("/" + imagePath);
+			if (url != null) {
+				bufferedImage = ImageIO.read(url);
+				if (bufferedImage != null) {
+					return;
+				}
+			}
+		} catch (IOException e) {
+			System.err.println("Error loading from resource: " + e.getMessage());
+		}
+		
+		// Try to load from classpath root 
+		try {
+			InputStream is = getClass().getClassLoader().getResourceAsStream(imagePath);
+			if (is != null) {
+				bufferedImage = ImageIO.read(is);
+				if (bufferedImage != null) {
+					return;
+				}
+			}
+		} catch (IOException e) {
+			System.err.println("Error loading from classpath: " + e.getMessage());
+		}
+		
+		// Try to load from project root (for working dir)
+		try {
+			File rootFile = new File(System.getProperty("user.dir"), imagePath);
+			if (rootFile.exists()) {
+				bufferedImage = ImageIO.read(rootFile);
+				if (bufferedImage != null) {
+					return;
+				}
+			}
+		} catch (IOException e) {
+			System.err.println("Error loading from project root: " + e.getMessage());
+		}
+		
+		// If all loading attempts failed
+		System.err.println(ERROR_FILE_PREFIX + imagePath + ERROR_NOT_FOUND);
+	}
 
     /**
      * Gets the file path of the image.

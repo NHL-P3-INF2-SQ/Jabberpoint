@@ -1,3 +1,9 @@
+# Rework
+
+## Students
+- Bram Suurd (5371333)
+- Jesse van der Voet (5405416)
+
 # JabberPoint Presentation Tool
 
 JabberPoint is a Java-based presentation tool that allows you to create and display simple presentations. It supports text slides with different styles and levels, as well as image slides.
