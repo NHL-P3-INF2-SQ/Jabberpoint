@@ -78,8 +78,12 @@ jobs:
           # Split into major, minor, patch
           IFS='.' read -r major minor patch <<< "$version"
           # Increment patch version
-          new_patch=$((patch + 1))
-          new_version="v$major.$minor.$new_patch"
+          if [ -z "$patch" ]; then
+            new_version="v0.0.1"
+          else
+            new_patch=$((patch + 1))
+            new_version="v0.0.$new_patch"
+          fi
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
 
       - name: Download JAR artifact
@@ -93,8 +97,8 @@ jobs:
           tag_name: ${{ steps.generate_version.outputs.new_version }}
           name: Release ${{ steps.generate_version.outputs.new_version }}
           files: JabberPoint.jar
+          body: |
+            ## What's Changed
+            * Automated release ${{ steps.generate_version.outputs.new_version }}
           draft: false
           prerelease: false
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
