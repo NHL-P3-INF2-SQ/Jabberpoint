@@ -32,65 +32,41 @@ jobs:
       - name: Compile Java files
         run: javac -d bin src/*.java
 
-      - name: Upload compiled files
+      - name: Create JAR manifest
+        run: |
+          echo "Main-Class: JabberPoint" > manifest.txt
+
+      - name: Create JAR file
+        run: |
+          cd bin
+          jar cfm ../JabberPoint.jar ../manifest.txt *
+
+      - name: Upload JAR file
         uses: actions/upload-artifact@v4
         with:
-          name: compiled-files
-          path: bin/
+          name: jabberpoint-jar
+          path: JabberPoint.jar
           retention-days: 1
 
   create_release:
     needs: compile
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Get latest tag
-        id: get_latest_tag
-        run: |
-          # Get the latest tag, default to v0.0.0 if none exists
-          git fetch --tags
-          latest_tag=$(git tag --sort=-v:refname | head -n 1)
-          if [ -z "$latest_tag" ]; then
-            latest_tag="v0.0.0"
-          fi
-          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
-
-      - name: Generate new version
-        id: generate_version
-        run: |
-          latest_tag=${{ steps.get_latest_tag.outputs.latest_tag }}
-          # Remove 'v' prefix
-          version=${latest_tag#v}
-          # Split into major, minor, patch
-          IFS='.' read -r major minor patch <<< "$version"
-          # Increment patch version
-          new_patch=$((patch + 1))
-          new_version="v$major.$minor.$new_patch"
-          echo "new_version=$new_version" >> $GITHUB_OUTPUT
-
-      - name: Download compiled artifacts
+      - name: Download JAR artifact
         uses: actions/download-artifact@v4
         with:
-          name: compiled-files
-          path: bin
+          name: jabberpoint-jar
 
-      - name: List files in bin
-        run: ls -la bin/
+      - name: Get version
+        id: get_version
+        run: echo "version=$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.generate_version.outputs.new_version }}
-          name: Release ${{ steps.generate_version.outputs.new_version }}
+          name: Release ${{ steps.get_version.outputs.version }}
+          tag_name: v${{ steps.get_version.outputs.version }}
+          files: JabberPoint.jar
           draft: false
           prerelease: false
-          files: bin/*
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
