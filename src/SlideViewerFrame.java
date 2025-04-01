@@ -4,43 +4,62 @@ import java.awt.event.WindowAdapter;
 import javax.swing.JFrame;
 
 /**
- * <p>Het applicatiewindow voor een slideviewcomponent</p>
+ * The main application window for displaying presentations.
+ * This class sets up the window and manages the slide viewer component
+ * along with its associated controllers.
+ *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
- * @version 1.1 2002/12/17 Gert Florijn
- * @version 1.2 2003/11/19 Sylvia Stuurman
- * @version 1.3 2004/08/17 Sylvia Stuurman
- * @version 1.4 2007/07/16 Sylvia Stuurman
- * @version 1.5 2010/03/03 Sylvia Stuurman
- * @version 1.6 2014/05/16 Sylvia Stuurman
-*/
-
+ * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
+ */
 public class SlideViewerFrame extends JFrame {
 	private static final long serialVersionUID = 3227L;
 	
-	private static final String JABTITLE = "Jabberpoint 1.6 - OU";
-	public final static int WIDTH = 1200;
-	public final static int HEIGHT = 800;
+	/**
+	 * Window title and dimensions
+	 */
+	private static final String JABTITLE = "Jabberpoint 1.7 - OU";
+	public static final int WIDTH = 1200;
+	public static final int HEIGHT = 800;
 	
+	/**
+	 * Creates a new SlideViewerFrame for the specified presentation.
+	 *
+	 * @param title The window title
+	 * @param presentation The presentation to display
+	 */
 	public SlideViewerFrame(String title, Presentation presentation) {
 		super(title);
 		SlideViewerComponent slideViewerComponent = new SlideViewerComponent(presentation, this);
 		presentation.setShowView(slideViewerComponent);
-		setupWindow(slideViewerComponent, presentation);
+		this.setupWindow(slideViewerComponent, presentation);
 	}
 
-// De GUI opzetten
-	public void setupWindow(SlideViewerComponent 
-			slideViewerComponent, Presentation presentation) {
-		setTitle(JABTITLE);
-		addWindowListener(new WindowAdapter() {
-				public void windowClosing(WindowEvent e) {
-					System.exit(0);
-				}
-			});
-		getContentPane().add(slideViewerComponent);
-		addKeyListener(new KeyController(presentation)); // een controller toevoegen
-		setMenuBar(new MenuController(this, presentation));	// nog een controller toevoegen
-		setSize(new Dimension(WIDTH, HEIGHT)); // Dezelfde maten als Slide hanteert.
-		setVisible(true);
+	/**
+	 * Sets up the window with the slide viewer component and controllers.
+	 * This includes setting the window title, size, and adding necessary
+	 * event listeners and controllers.
+	 *
+	 * @param slideViewerComponent The component to display slides
+	 * @param presentation The presentation being displayed
+	 */
+	private void setupWindow(SlideViewerComponent slideViewerComponent, Presentation presentation) {
+		this.setTitle(JABTITLE);
+		
+		// Add window close handler
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+		
+		// Add components and controllers
+		this.getContentPane().add(slideViewerComponent);
+		this.addKeyListener(new KeyController(presentation));
+		this.setMenuBar(new MenuController(this, presentation));
+		
+		// Set window properties
+		this.setSize(new Dimension(WIDTH, HEIGHT));
+		this.setVisible(true);
 	}
 }
