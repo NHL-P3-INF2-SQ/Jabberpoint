@@ -1,6 +1,7 @@
 # Rework
 
 ## Students
+
 - Bram Suurd (5371333)
 - Jesse van der Voet (5405416)
 
@@ -62,15 +63,17 @@ Presentations are stored in XML format. Here's an example structure:
 
 1. Clone the repository
 2. Ensure you have JDK 21 installed
-3. Compile the source:
+3. Make the build script executable and run it:
    ```bash
-   javac -d bin src/*.java
+   chmod +x build.sh
+   ./build.sh
    ```
-4. Create a JAR file:
-   ```bash
-   cd bin
-   jar cfm ../JabberPoint.jar ../manifest.txt *
-   ```
+   This will:
+   - Create a `build` directory
+   - Compile all Java source files
+   - Copy any resources (XML, JPG, GIF files) to the build directory
+
+The compiled output will be available in the `build` directory.
 
 ## License
 
