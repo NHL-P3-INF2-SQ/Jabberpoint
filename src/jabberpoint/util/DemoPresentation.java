@@ -1,3 +1,8 @@
+package jabberpoint.util;
+import jabberpoint.io.Accessor;
+import jabberpoint.model.Presentation;
+import jabberpoint.model.Slide;
+import jabberpoint.factory.SlideItemFactory;
 /**
  * A built-in demonstration presentation that provides a sample
  * presentation to showcase JabberPoint's features.

@@ -1,5 +1,11 @@
-import javax.swing.JOptionPane;
+package jabberpoint;
 
+import javax.swing.JOptionPane;
+import jabberpoint.model.Presentation;
+import jabberpoint.model.Style;
+import jabberpoint.io.Accessor;
+import jabberpoint.io.XMLAccessor;
+import jabberpoint.ui.SlideViewerFrame;
 import java.io.IOException;
 
 /** JabberPoint Main Programma

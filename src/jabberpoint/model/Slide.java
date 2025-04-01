@@ -1,3 +1,6 @@
+package jabberpoint.model;
+
+import jabberpoint.factory.SlideItemFactory;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.ImageObserver;

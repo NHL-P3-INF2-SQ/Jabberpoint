@@ -1,5 +1,12 @@
+package jabberpoint.controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
+import jabberpoint.command.Command;
+import jabberpoint.command.NextSlideCommand;
+import jabberpoint.command.PreviousSlideCommand;
+import jabberpoint.command.ExitPresentationCommand;
+import jabberpoint.model.Presentation;
+import jabberpoint.model.PresentationReceiver;
 
 /**
  * Handles keyboard input for controlling the presentation.

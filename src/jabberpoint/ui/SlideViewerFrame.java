@@ -1,7 +1,11 @@
+package jabberpoint.ui;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import javax.swing.JFrame;
+import jabberpoint.model.Presentation;
+import jabberpoint.controller.KeyController;
+import jabberpoint.controller.MenuController;
 
 /**
  * The main application window for displaying presentations.

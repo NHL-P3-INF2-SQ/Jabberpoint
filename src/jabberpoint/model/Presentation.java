@@ -1,4 +1,7 @@
+package jabberpoint.model;
+
 import java.util.ArrayList;
+import jabberpoint.ui.SlideViewerComponent;
 
 /**
  * Manages a presentation consisting of multiple slides.
