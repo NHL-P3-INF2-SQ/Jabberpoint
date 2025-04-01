@@ -79,7 +79,7 @@ jobs:
           IFS='.' read -r major minor patch <<< "$version"
           # Increment patch version
           if [ -z "$patch" ]; then
-            new_version="v1.7.1"
+            new_version="v1.7.0"
           else
             new_patch=$((patch + 1))
             new_version="v$major.$minor.$new_patch"
