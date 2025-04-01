@@ -13,6 +13,10 @@ SRC_ROOT="src"
 echo "Compiling Java files..."
 javac -d build -sourcepath $SRC_ROOT $(find $SRC_ROOT/jabberpoint -name "*.java")
 
+# compile to jar
+echo "Compiling to jar..."
+jar cfm JabberPoint.jar manifest.txt -C build .
+
 # Copy resources if any exist
 echo "Copying resources..."
 for ext in xml jpg gif; do

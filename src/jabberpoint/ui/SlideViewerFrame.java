@@ -26,6 +26,11 @@ public class SlideViewerFrame extends JFrame {
 	public static final int HEIGHT = 800;
 	
 	/**
+	 * The component responsible for displaying slides
+	 */
+	private final SlideViewerComponent slideViewerComponent;
+
+	/**
 	 * Creates a new SlideViewerFrame for the specified presentation.
 	 *
 	 * @param title The window title
@@ -33,9 +38,9 @@ public class SlideViewerFrame extends JFrame {
 	 */
 	public SlideViewerFrame(String title, Presentation presentation) {
 		super(title);
-		SlideViewerComponent slideViewerComponent = new SlideViewerComponent(presentation, this);
-		presentation.setShowView(slideViewerComponent);
-		this.setupWindow(slideViewerComponent, presentation);
+		this.slideViewerComponent = new SlideViewerComponent(presentation, this);
+		presentation.setShowView(this.slideViewerComponent);
+		this.setupWindow(presentation);
 	}
 
 	/**
@@ -43,10 +48,9 @@ public class SlideViewerFrame extends JFrame {
 	 * This includes setting the window title, size, and adding necessary
 	 * event listeners and controllers.
 	 *
-	 * @param slideViewerComponent The component to display slides
 	 * @param presentation The presentation being displayed
 	 */
-	private void setupWindow(SlideViewerComponent slideViewerComponent, Presentation presentation) {
+	private void setupWindow(Presentation presentation) {
 		this.setTitle(JABTITLE);
 		
 		// Add window close handler
@@ -58,7 +62,7 @@ public class SlideViewerFrame extends JFrame {
 		});
 		
 		// Add components and controllers
-		this.getContentPane().add(slideViewerComponent);
+		this.getContentPane().add(this.slideViewerComponent);
 		this.addKeyListener(new KeyController(presentation));
 		this.setMenuBar(new MenuController(this, presentation));
 		
