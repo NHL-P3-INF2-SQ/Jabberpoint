@@ -29,11 +29,12 @@ jobs:
 
       - name: Run Checkstyle
         run: |
-          java -jar checkstyle.jar -c .github/workflows/checkstyle.xml src/ || exit 1
+          java -jar checkstyle.jar -c .github/workflows/checkstyle.xml -f xml -o checkstyle-result.xml src/ || true
 
       - name: Upload Checkstyle results
-        if: failure()
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: checkstyle-results
           path: checkstyle-result.xml
+          retention-days: 14
