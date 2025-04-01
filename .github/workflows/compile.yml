@@ -29,7 +29,7 @@ jobs:
         run: javac -d bin src/*.java
 
       - name: Upload compiled files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: compiled-files
           path: bin/
