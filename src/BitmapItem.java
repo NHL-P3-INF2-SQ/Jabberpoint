@@ -8,64 +8,128 @@ import javax.imageio.ImageIO;
 
 import java.io.IOException;
 
-
-/** <p>De klasse voor een Bitmap item</p>
- * <p>Bitmap items hebben de verantwoordelijkheid om zichzelf te tekenen.</p>
+/**
+ * Represents a bitmap image item within a slide.
+ * This class is responsible for loading, drawing, and managing bitmap images
+ * as slide items. Each BitmapItem contains an image and handles its own rendering
+ * based on the provided style and scale parameters.
+ *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
- * @version 1.1 2002/12/17 Gert Florijn
- * @version 1.2 2003/11/19 Sylvia Stuurman
- * @version 1.3 2004/08/17 Sylvia Stuurman
- * @version 1.4 2007/07/16 Sylvia Stuurman
- * @version 1.5 2010/03/03 Sylvia Stuurman
- * @version 1.6 2014/05/16 Sylvia Stuurman
-*/
-
+ * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
+ */
 public class BitmapItem extends SlideItem {
-  private BufferedImage bufferedImage;
-  private String imageName;
-  
-  protected static final String FILE = "Bestand ";
-  protected static final String NOTFOUND = " niet gevonden";
+    
+    /**
+     * The loaded image data.
+     */
+    private BufferedImage bufferedImage;
+    
+    /**
+     * The file path of the image.
+     */
+    private final String imagePath;
+    
+    /**
+     * Error message constants for file handling.
+     */
+    private static final String ERROR_FILE_PREFIX = "File ";
+    private static final String ERROR_NOT_FOUND = " not found";
 
-// level staat voor het item-level; name voor de naam van het bestand met de afbeelding
-	public BitmapItem(int level, String name) {
-		super(level);
-		imageName = name;
-		try {
-			bufferedImage = ImageIO.read(new File(imageName));
-		}
-		catch (IOException e) {
-			System.err.println(FILE + imageName + NOTFOUND) ;
-		}
-	}
+    /**
+     * Creates a new BitmapItem with the specified level and image path.
+     *
+     * @param level The indentation level of this item
+     * @param imagePath The file path to the image
+     */
+    public BitmapItem(int level, String imagePath) {
+        super(level);
+        this.imagePath = imagePath;
+        this.loadImage();
+    }
 
-// Een leeg bitmap-item
-	public BitmapItem() {
-		this(0, null);
-	}
+    /**
+     * Creates an empty BitmapItem with default values.
+     */
+    public BitmapItem() {
+        this(0, null);
+    }
 
-// geef de bestandsnaam van de afbeelding
-	public String getName() {
-		return imageName;
-	}
+    /**
+     * Loads the image from the specified file path.
+     */
+    private void loadImage() {
+        if (this.imagePath != null) {
+            try {
+                this.bufferedImage = ImageIO.read(new File(this.imagePath));
+            } catch (IOException e) {
+                System.err.println(ERROR_FILE_PREFIX + this.imagePath + ERROR_NOT_FOUND);
+            }
+        }
+    }
 
-// geef de bounding box van de afbeelding
-	public Rectangle getBoundingBox(Graphics g, ImageObserver observer, float scale, Style myStyle) {
-		return new Rectangle((int) (myStyle.indent * scale), 0,
-				(int) (bufferedImage.getWidth(observer) * scale),
-				((int) (myStyle.leading * scale)) + 
-				(int) (bufferedImage.getHeight(observer) * scale));
-	}
+    /**
+     * Gets the file path of the image.
+     *
+     * @return The file path of the image
+     */
+    public String getImagePath() {
+        return this.imagePath;
+    }
 
-// teken de afbeelding
-	public void draw(int x, int y, float scale, Graphics g, Style myStyle, ImageObserver observer) {
-		int width = x + (int) (myStyle.indent * scale);
-		int height = y + (int) (myStyle.leading * scale);
-		g.drawImage(bufferedImage, width, height,(int) (bufferedImage.getWidth(observer)*scale),
-                (int) (bufferedImage.getHeight(observer)*scale), observer);
-	}
+    /**
+     * Calculates the bounding box for this bitmap item.
+     *
+     * @param graphics The graphics context
+     * @param observer The image observer
+     * @param scale The scale factor to apply
+     * @param style The style to use for rendering
+     * @return A Rectangle representing the bounding box
+     */
+    @Override
+    public Rectangle getBoundingBox(Graphics graphics, ImageObserver observer, float scale, Style style) {
+        if (this.bufferedImage == null) {
+            return new Rectangle();
+        }
+        
+        return new Rectangle(
+            (int) (style.getIndent() * scale),
+            0,
+            (int) (this.bufferedImage.getWidth(observer) * scale),
+            (int) (style.getLeading() * scale) + (int) (this.bufferedImage.getHeight(observer) * scale)
+        );
+    }
 
-	public String toString() {
-		return "BitmapItem[" + getLevel() + "," + imageName + "]";
-	}
+    /**
+     * Draws the bitmap image on the specified graphics context.
+     *
+     * @param x The x-coordinate for drawing
+     * @param y The y-coordinate for drawing
+     * @param scale The scale factor to apply
+     * @param graphics The graphics context to draw on
+     * @param style The style to use for rendering
+     * @param observer The image observer
+     */
+    @Override
+    public void draw(int x, int y, float scale, Graphics graphics, Style style, ImageObserver observer) {
+        if (this.bufferedImage == null) {
+            return;
+        }
+        
+        int drawX = x + (int) (style.getIndent() * scale);
+        int drawY = y + (int) (style.getLeading() * scale);
+        int scaledWidth = (int) (this.bufferedImage.getWidth(observer) * scale);
+        int scaledHeight = (int) (this.bufferedImage.getHeight(observer) * scale);
+        
+        graphics.drawImage(this.bufferedImage, drawX, drawY, scaledWidth, scaledHeight, observer);
+    }
+
+    /**
+     * Returns a string representation of this BitmapItem.
+     *
+     * @return A string representation of the object
+     */
+    @Override
+    public String toString() {
+        return String.format("BitmapItem[level=%d,path=%s]", this.getLevel(), this.imagePath);
+    }
 }
