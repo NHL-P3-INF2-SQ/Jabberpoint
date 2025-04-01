@@ -1,4 +1,8 @@
 import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JOptionPane;
+import java.io.File;
 
 /**
  * Receiver class that handles all presentation operations
@@ -36,28 +40,68 @@ public class PresentationReceiver {
     }
 
     /**
-     * Open a presentation using the default accessor
+     * Open a presentation using a file chooser dialog
      */
     public void openPresentation() {
-        try {
-            this.presentation.clear();  // Clear the current presentation
-            Accessor accessor = new XMLAccessor();
-            accessor.loadFile(this.presentation, "test.xml");
-            this.presentation.setSlideNumber(0);  // Reset to first slide
-        } catch (IOException e) {
-            System.err.println("Error loading presentation: " + e.getMessage());
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("XML Presentations", "xml"));
+        
+        // Set initial directory to Downloads folder
+        String userHome = System.getProperty("user.home");
+        File downloadsDir = new File(userHome, "Downloads");
+        if (downloadsDir.exists() && downloadsDir.isDirectory()) {
+            fileChooser.setCurrentDirectory(downloadsDir);
+        }
+
+        int returnVal = fileChooser.showOpenDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            try {
+                this.presentation.clear();  // Clear the current presentation
+                Accessor accessor = new XMLAccessor();
+                accessor.loadFile(this.presentation, fileChooser.getSelectedFile().getPath());
+                this.presentation.setSlideNumber(0);  // Reset to first slide
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error loading presentation: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
     /**
-     * Save the current presentation using the default accessor
+     * Save the current presentation using a file chooser dialog
      */
     public void savePresentation() {
-        try {
-            Accessor accessor = new XMLAccessor();
-            accessor.saveFile(this.presentation, "test.xml");
-        } catch (IOException e) {
-            System.err.println("Error saving presentation: " + e.getMessage());
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("XML Presentations", "xml"));
+        
+        // Set initial directory to Downloads folder
+        String userHome = System.getProperty("user.home");
+        File downloadsDir = new File(userHome, "Downloads");
+        if (downloadsDir.exists() && downloadsDir.isDirectory()) {
+            fileChooser.setCurrentDirectory(downloadsDir);
+        }
+
+        // Suggest a default filename
+        fileChooser.setSelectedFile(new File("presentation.xml"));
+
+        int returnVal = fileChooser.showSaveDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            try {
+                Accessor accessor = new XMLAccessor();
+                String filePath = fileChooser.getSelectedFile().getPath();
+                // Add .xml extension if not present
+                if (!filePath.toLowerCase().endsWith(".xml")) {
+                    filePath += ".xml";
+                }
+                accessor.saveFile(this.presentation, filePath);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error saving presentation: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
