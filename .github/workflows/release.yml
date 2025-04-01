@@ -8,8 +8,8 @@ on:
 jobs:
   create_release:
     runs-on: ubuntu-latest
-    # Wait for the compile job to complete
     needs: compile
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout code
