@@ -12,9 +12,19 @@ import java.awt.event.KeyAdapter;
 public class KeyController extends KeyAdapter {
     
     /**
-     * The presentation being controlled.
+     * Command for navigating to the next slide
      */
-    private final Presentation presentation;
+    private final Command nextSlideCommand;
+
+    /**
+     * Command for navigating to the previous slide
+     */
+    private final Command prevSlideCommand;
+
+    /**
+     * Command for exiting the application
+     */
+    private final Command exitCommand;
 
     /**
      * Creates a new KeyController for the specified presentation.
@@ -22,7 +32,10 @@ public class KeyController extends KeyAdapter {
      * @param presentation The presentation to control
      */
     public KeyController(Presentation presentation) {
-        this.presentation = presentation;
+        PresentationReceiver receiver = new PresentationReceiver(presentation);
+        this.nextSlideCommand = new NextSlideCommand(receiver);
+        this.prevSlideCommand = new PreviousSlideCommand(receiver);
+        this.exitCommand = new ExitPresentationCommand(receiver);
     }
 
     /**
@@ -40,16 +53,16 @@ public class KeyController extends KeyAdapter {
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_ENTER:
             case '+':
-                this.presentation.nextSlide();
+                this.nextSlideCommand.execute();
                 break;
             case KeyEvent.VK_PAGE_UP:
             case KeyEvent.VK_UP:
             case '-':
-                this.presentation.prevSlide();
+                this.prevSlideCommand.execute();
                 break;
             case 'q':
             case 'Q':
-                System.exit(0);
+                this.exitCommand.execute();
                 break;
             default:
                 break;
