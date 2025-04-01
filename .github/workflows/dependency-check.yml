@@ -13,6 +13,10 @@ on:
 jobs:
   security:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+
     steps:
       - uses: actions/checkout@v3
 
@@ -21,8 +25,11 @@ jobs:
         with:
           java-version: "21"
           distribution: "temurin"
+          cache: "maven"
 
       - name: OWASP Dependency Check
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME }}
         uses: dependency-check/Dependency-Check_Action@main
         with:
           project: "Jabberpoint"
