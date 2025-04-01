@@ -1,2 +1,5 @@
 JabberPoint.jar
 /bin/*
+/out/*
+build/*
+target/*
