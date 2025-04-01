@@ -3,3 +3,4 @@ JabberPoint.jar
 /out/*
 build/*
 target/*
+.DS_Store
