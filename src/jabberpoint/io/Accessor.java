@@ -1,4 +1,8 @@
+package jabberpoint.io;
+
 import java.io.IOException;
+import jabberpoint.model.Presentation;
+import jabberpoint.util.DemoPresentation;
 
 /**
  * An abstract class that provides functionality to read and write presentation data.

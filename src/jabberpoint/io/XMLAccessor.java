@@ -1,7 +1,14 @@
+package jabberpoint.io;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.FileWriter;
+import jabberpoint.model.Presentation;
+import jabberpoint.model.Slide;
+import jabberpoint.model.SlideItem;
+import jabberpoint.factory.SlideItemFactory;
+import jabberpoint.model.TextItem;
+import jabberpoint.model.BitmapItem;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

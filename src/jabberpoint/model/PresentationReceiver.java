@@ -1,9 +1,11 @@
+package jabberpoint.model;
 import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JOptionPane;
 import java.io.File;
-
+import jabberpoint.io.XMLAccessor;
+import jabberpoint.io.Accessor;
 /**
  * Receiver class that handles all presentation operations
  */

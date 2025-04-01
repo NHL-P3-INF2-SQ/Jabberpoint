@@ -1,5 +1,12 @@
+package jabberpoint.command;
+
+import jabberpoint.model.PresentationReceiver;
+
 /**
  * Command to move to the next slide in the presentation
+ * 
+ * @author Jesse van der Voet, Bram Suurd
+ * @version 1.7 2024/04/01
  */
 public class NextSlideCommand implements Command {
     private final PresentationReceiver receiver;

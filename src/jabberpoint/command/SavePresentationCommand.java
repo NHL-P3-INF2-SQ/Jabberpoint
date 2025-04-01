@@ -1,3 +1,6 @@
+package jabberpoint.command;
+import jabberpoint.model.PresentationReceiver;
+
 /**
  * Command to save the current presentation
  */

@@ -1,3 +1,4 @@
+package jabberpoint.controller;
 import java.awt.MenuBar;
 import java.awt.Frame;
 import java.awt.Menu;
@@ -5,6 +6,14 @@ import java.awt.MenuItem;
 import java.awt.MenuShortcut;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import jabberpoint.model.Presentation;
+import jabberpoint.model.PresentationReceiver;
+import jabberpoint.command.Command;
+import jabberpoint.command.NewPresentationCommand;
+import jabberpoint.command.OpenPresentationCommand;
+import jabberpoint.command.SavePresentationCommand;
+import jabberpoint.command.ExitPresentationCommand;
+import jabberpoint.ui.AboutBox;
 
 /**
  * Controls the menu system of the presentation application.

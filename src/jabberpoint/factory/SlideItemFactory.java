@@ -1,3 +1,9 @@
+package jabberpoint.factory;
+
+import jabberpoint.model.SlideItem;
+import jabberpoint.model.TextItem;
+import jabberpoint.model.BitmapItem;
+
 /**
  * Factory class for creating different types of slide items.
  * This class encapsulates the creation logic for text and bitmap items,
