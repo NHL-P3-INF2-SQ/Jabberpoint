@@ -1,0 +1,61 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    # Wait for the compile job to complete
+    needs: compile
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get latest tag
+        id: get_latest_tag
+        run: |
+          # Get the latest tag, default to v0.0.0 if none exists
+          git fetch --tags
+          latest_tag=$(git tag --sort=-v:refname | head -n 1)
+          if [ -z "$latest_tag" ]; then
+            latest_tag="v0.0.0"
+          fi
+          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
+
+      - name: Generate new version
+        id: generate_version
+        run: |
+          latest_tag=${{ steps.get_latest_tag.outputs.latest_tag }}
+          # Remove 'v' prefix
+          version=${latest_tag#v}
+          # Split into major, minor, patch
+          IFS='.' read -r major minor patch <<< "$version"
+          # Increment patch version
+          new_patch=$((patch + 1))
+          new_version="v$major.$minor.$new_patch"
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+
+      - name: Download compiled artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: compiled-files
+          path: bin
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.generate_version.outputs.new_version }}
+          name: Release ${{ steps.generate_version.outputs.new_version }}
+          draft: false
+          prerelease: false
+          files: |
+            bin/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
