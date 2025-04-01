@@ -8,11 +8,13 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import jabberpoint.model.Slide;
 import jabberpoint.model.Presentation;
+import jabberpoint.ui.renderer.PresentationRenderer;
+import jabberpoint.ui.renderer.SwingPresentationRenderer;
 
 /**
  * A graphical component that displays slides in a presentation.
- * This component handles the rendering of slides and their content,
- * including the slide number indicator.
+ * This component uses the Bridge pattern to delegate rendering to a PresentationRenderer,
+ * allowing for different rendering implementations.
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
@@ -53,6 +55,11 @@ public class SlideViewerComponent extends JComponent {
     private static final int YPOS = 20;
 
     /**
+     * The renderer responsible for drawing the presentation.
+     */
+    private final PresentationRenderer renderer;
+
+    /**
      * Creates a new SlideViewerComponent for the specified presentation.
      *
      * @param presentation The presentation to display
@@ -63,6 +70,7 @@ public class SlideViewerComponent extends JComponent {
         this.presentation = presentation;
         this.labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
         this.frame = frame;
+        this.renderer = new SwingPresentationRenderer(frame);
     }
 
     /**
@@ -82,44 +90,30 @@ public class SlideViewerComponent extends JComponent {
      * @param slide The slide to display
      */
     public void update(Presentation presentation, Slide slide) {
-        if (slide == null) {
-            repaint();
+        if (presentation == null) {
             return;
         }
         this.presentation = presentation;
         this.slide = slide;
+        this.renderer.updateTitle(presentation);
         repaint();
-        this.frame.setTitle(presentation.getTitle());
     }
 
     /**
-     * Paints the component, including the slide content and slide number indicator.
+     * Paints the component using the configured renderer.
      *
      * @param graphics The graphics context to paint on
      */
     @Override
     public void paintComponent(Graphics graphics) {
-        // Fill background
-        graphics.setColor(BGCOLOR);
-        graphics.fillRect(0, 0, getSize().width, getSize().height);
+        super.paintComponent(graphics);
         
-        if (this.presentation.getSlideNumber() < 0 || this.slide == null) {
+        if (this.presentation == null || this.presentation.getSlideNumber() < 0 || this.slide == null) {
             return;
         }
         
-        // Draw slide number indicator
-        graphics.setFont(this.labelFont);
-        graphics.setColor(COLOR);
-        graphics.drawString(
-            String.format("Slide %d of %d",
-                this.presentation.getSlideNumber() + 1,
-                this.presentation.getSize()),
-            XPOS,
-            YPOS
-        );
-        
-        // Draw slide content
-        Rectangle area = new Rectangle(0, YPOS, getWidth(), getHeight() - YPOS);
-        this.slide.draw(graphics, area, this);
+        Rectangle area = new Rectangle(0, 0, getWidth(), getHeight());
+        this.renderer.renderSlide(graphics, this.slide, area, 
+            this.presentation.getSlideNumber(), this.presentation.getSize());
     }
 }
