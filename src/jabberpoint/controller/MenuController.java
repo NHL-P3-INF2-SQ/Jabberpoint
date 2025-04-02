@@ -13,6 +13,8 @@ import jabberpoint.command.NewPresentationCommand;
 import jabberpoint.command.OpenPresentationCommand;
 import jabberpoint.command.SavePresentationCommand;
 import jabberpoint.command.ExitPresentationCommand;
+import jabberpoint.command.NextSlideCommand;
+import jabberpoint.command.PreviousSlideCommand;
 import jabberpoint.ui.AboutBox;
 import jabberpoint.util.ErrorHandler;
 
@@ -24,7 +26,7 @@ import jabberpoint.util.ErrorHandler;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
  */
-public class MenuController extends MenuBar {
+public class MenuController extends MenuBar implements PresentationReceiver.PresentationUpdateListener {
 	
 	private static final long serialVersionUID = 227L;
 	
@@ -36,7 +38,7 @@ public class MenuController extends MenuBar {
 	/**
 	 * The presentation being controlled.
 	 */
-	private final Presentation presentation;
+	private Presentation presentation;
 	
 	/**
 	 * Menu item labels
@@ -58,27 +60,38 @@ public class MenuController extends MenuBar {
 	private final Command openPresentationCommand;
 	private final Command savePresentationCommand;
 	private final Command exitPresentationCommand;
+	private final Command nextSlideCommand;
+	private final Command prevSlideCommand;
+	private final PresentationReceiver receiver;  // Store receiver reference for goto command
 
 	/**
-	 * Creates a new MenuController with the specified frame and presentation.
+	 * Creates a new MenuController with the specified frame and presentation receiver.
 	 *
 	 * @param frame The parent frame for dialogs
-	 * @param presentation The presentation to control
+	 * @param receiver The presentation receiver to use for commands
 	 */
-	public MenuController(Frame frame, Presentation presentation) {
+	public MenuController(Frame frame, PresentationReceiver receiver) {
 		this.parent = frame;
-		this.presentation = presentation;
+		this.presentation = receiver.getPresentation();
+		this.receiver = receiver;
+		receiver.addPresentationUpdateListener(this);  // Register for presentation updates
 		
-		PresentationReceiver receiver = new PresentationReceiver(presentation, (javax.swing.JFrame)frame);
 		this.newPresentationCommand = new NewPresentationCommand(receiver);
 		this.openPresentationCommand = new OpenPresentationCommand(receiver);
 		this.savePresentationCommand = new SavePresentationCommand(receiver);
 		this.exitPresentationCommand = new ExitPresentationCommand(receiver);
+		this.nextSlideCommand = new NextSlideCommand(receiver);
+		this.prevSlideCommand = new PreviousSlideCommand(receiver);
 		
 		// Create and configure menus
 		createFileMenu();
 		createViewMenu();
 		createHelpMenu();
+	}
+
+	@Override
+	public void onPresentationChanged(Presentation newPresentation) {
+		this.presentation = newPresentation;
 	}
 
 	/**
@@ -114,11 +127,11 @@ public class MenuController extends MenuBar {
 		Menu viewMenu = new Menu(VIEW);
 		
 		// Next slide menu item
-		MenuItem nextItem = createMenuItem(NEXT, '>', event -> presentation.nextSlide());
+		MenuItem nextItem = createMenuItem(NEXT, '>', event -> nextSlideCommand.execute());
 		viewMenu.add(nextItem);
 		
 		// Previous slide menu item
-		MenuItem prevItem = createMenuItem(PREV, '<', event -> presentation.prevSlide());
+		MenuItem prevItem = createMenuItem(PREV, '<', event -> prevSlideCommand.execute());
 		viewMenu.add(prevItem);
 		
 		// Go to slide menu item
@@ -126,7 +139,8 @@ public class MenuController extends MenuBar {
 			String pageNumberStr = JOptionPane.showInputDialog(parent, PAGENR);
 			try {
 				int pageNumber = Integer.parseInt(pageNumberStr);
-				presentation.setSlideNumber(pageNumber - 1);
+				// Use the receiver to access the current presentation
+				receiver.getPresentation().setSlideNumber(pageNumber - 1);
 			} catch (NumberFormatException ex) {
 				ErrorHandler.handleValidationError("Invalid page number format", parent);
 			}

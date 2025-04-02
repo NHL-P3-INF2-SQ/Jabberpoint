@@ -3,9 +3,11 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.util.ArrayList;
 import jabberpoint.io.XMLAccessor;
 import jabberpoint.io.Accessor;
 import jabberpoint.util.ErrorHandler;
+import jabberpoint.observer.PresentationObserver;
 import javax.swing.JFrame;
 
 /**
@@ -19,6 +21,14 @@ import javax.swing.JFrame;
 public class PresentationReceiver {
     private Presentation presentation;
     private JFrame parentFrame;
+    private final ArrayList<PresentationUpdateListener> presentationListeners;
+
+    /**
+     * Interface for components that need to be notified of presentation changes
+     */
+    public interface PresentationUpdateListener {
+        void onPresentationChanged(Presentation newPresentation);
+    }
 
     /**
      * Constructor that takes a presentation and parent frame
@@ -28,6 +38,32 @@ public class PresentationReceiver {
     public PresentationReceiver(Presentation presentation, JFrame parentFrame) {
         this.presentation = presentation;
         this.parentFrame = parentFrame;
+        this.presentationListeners = new ArrayList<>();
+    }
+
+    /**
+     * Adds a listener to be notified when the presentation changes
+     * @param listener The listener to add
+     */
+    public void addPresentationUpdateListener(PresentationUpdateListener listener) {
+        this.presentationListeners.add(listener);
+    }
+
+    /**
+     * Notifies all listeners about the presentation change
+     */
+    private void notifyPresentationChanged() {
+        for (PresentationUpdateListener listener : this.presentationListeners) {
+            listener.onPresentationChanged(this.presentation);
+        }
+    }
+
+    /**
+     * Gets the current presentation
+     * @return The current presentation
+     */
+    public Presentation getPresentation() {
+        return this.presentation;
     }
 
     /**
@@ -48,7 +84,25 @@ public class PresentationReceiver {
      * Create a new presentation
      */
     public void newPresentation() {
-        this.presentation = new Presentation();
+        // Save current observers
+        ArrayList<PresentationObserver> currentObservers = new ArrayList<>(this.presentation.getObservers());
+        
+        // Create new presentation
+        Presentation newPresentation = new Presentation();
+        
+        // Restore observers to the new presentation
+        for (PresentationObserver observer : currentObservers) {
+            newPresentation.addObserver(observer);
+        }
+        
+        // Update the presentation reference
+        this.presentation = newPresentation;
+        
+        // Notify all components about the new presentation
+        this.notifyPresentationChanged();
+        
+        // Notify observers about the new presentation state
+        this.presentation.notifyObservers();
     }
 
     /**
@@ -68,12 +122,21 @@ public class PresentationReceiver {
         int returnVal = fileChooser.showOpenDialog(parentFrame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
-                this.presentation.clear();  // Clear the current presentation
+                String filePath = fileChooser.getSelectedFile().getPath();
+                
+                // Create new presentation while preserving observers
+                this.newPresentation();
+                
+                // Load the selected file
                 Accessor accessor = new XMLAccessor();
-                accessor.loadFile(this.presentation, fileChooser.getSelectedFile().getPath());
-                this.presentation.setSlideNumber(0);  // Reset to first slide
+                accessor.loadFile(this.presentation, filePath);
+                
+                // Reset to first slide to display the loaded presentation
+                this.presentation.setSlideNumber(0);
             } catch (IOException e) {
                 ErrorHandler.handleIOError(e, parentFrame);
+            } catch (Exception e) {
+                ErrorHandler.handleGeneralError(e, parentFrame);
             }
         }
     }
