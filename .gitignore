@@ -1,2 +1,6 @@
 JabberPoint.jar
 /bin/*
+/out/*
+build/*
+target/*
+.DS_Store

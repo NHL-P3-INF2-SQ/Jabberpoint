@@ -1,5 +1,11 @@
+package jabberpoint.command;
+import jabberpoint.model.PresentationReceiver;
+
 /**
  * Command to open an existing presentation
+ * 
+ * @author Jesse van der Voet, Bram Suurd
+ * @version 1.7 2024/04/01
  */
 public class OpenPresentationCommand implements Command {
     private final PresentationReceiver receiver;

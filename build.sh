@@ -1,18 +1,27 @@
 #!/bin/bash
 
-# Create bin directory if it doesn't exist
-mkdir -p bin
+# Exit on any error
+set -e
 
-# Compile all Java files
-javac -d bin src/*.java
+# Create build directory if it doesn't exist
+mkdir -p build
 
-# Create manifest file
-echo "Main-Class: JabberPoint" > manifest.txt
+# Set the source root directory
+SRC_ROOT="src"
 
-# Create JAR file
-cd bin
-jar cfm ../JabberPoint.jar ../manifest.txt *
-cd ..
+# Compile all Java files with proper classpath and source root
+echo "Compiling Java files..."
+javac -d build -sourcepath $SRC_ROOT $(find $SRC_ROOT/jabberpoint -name "*.java")
 
-echo "Build complete: JabberPoint.jar created successfully"
-echo "Run with: java -jar JabberPoint.jar [presentation.xml]"
+# compile to jar
+echo "Compiling to jar..."
+jar cfm JabberPoint.jar manifest.txt -C build .
+
+# Copy resources if any exist
+echo "Copying resources..."
+for ext in xml jpg gif; do
+    find . -maxdepth 1 -name "*.$ext" -exec cp {} build/ \; 2>/dev/null || true
+    find $SRC_ROOT -name "*.$ext" -exec cp {} build/ \; 2>/dev/null || true
+done
+
+echo "Build completed successfully. Output is in the build directory."

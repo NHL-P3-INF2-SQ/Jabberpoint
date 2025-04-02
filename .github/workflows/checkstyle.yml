@@ -30,12 +30,26 @@ jobs:
 
       - name: Run Checkstyle
         run: |
-          java -jar checkstyle.jar -c checkstyle.xml -f xml -o checkstyle-result.xml src/ || true
+          # Create output directory for reports
+          mkdir -p reports
+
+          # Run Checkstyle on the jabberpoint package
+          java -jar checkstyle.jar -c checkstyle.xml \
+            -f xml \
+            -o reports/checkstyle-result.xml \
+            src/jabberpoint || true
+
+          # Check if any errors were found (optional)
+          if grep -q "<error" reports/checkstyle-result.xml; then
+            echo "Checkstyle found violations. Check the report for details."
+          else
+            echo "No Checkstyle violations found."
+          fi
 
       - name: Upload Checkstyle results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: checkstyle-results
-          path: checkstyle-result.xml
+          path: reports/checkstyle-result.xml
           retention-days: 14

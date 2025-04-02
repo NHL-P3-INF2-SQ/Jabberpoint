@@ -1,7 +1,12 @@
+package jabberpoint.ui;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import javax.swing.JFrame;
+import jabberpoint.model.Presentation;
+import jabberpoint.controller.KeyController;
+import jabberpoint.controller.MenuController;
+import jabberpoint.util.ErrorHandler;
 
 /**
  * The main application window for displaying presentations.
@@ -22,6 +27,11 @@ public class SlideViewerFrame extends JFrame {
 	public static final int HEIGHT = 800;
 	
 	/**
+	 * The component responsible for displaying slides
+	 */
+	private final SlideViewerComponent slideViewerComponent;
+
+	/**
 	 * Creates a new SlideViewerFrame for the specified presentation.
 	 *
 	 * @param title The window title
@@ -29,9 +39,8 @@ public class SlideViewerFrame extends JFrame {
 	 */
 	public SlideViewerFrame(String title, Presentation presentation) {
 		super(title);
-		SlideViewerComponent slideViewerComponent = new SlideViewerComponent(presentation, this);
-		presentation.setShowView(slideViewerComponent);
-		this.setupWindow(slideViewerComponent, presentation);
+		this.slideViewerComponent = new SlideViewerComponent(presentation, this);
+		this.setupWindow(presentation);
 	}
 
 	/**
@@ -39,23 +48,26 @@ public class SlideViewerFrame extends JFrame {
 	 * This includes setting the window title, size, and adding necessary
 	 * event listeners and controllers.
 	 *
-	 * @param slideViewerComponent The component to display slides
 	 * @param presentation The presentation being displayed
 	 */
-	private void setupWindow(SlideViewerComponent slideViewerComponent, Presentation presentation) {
+	private void setupWindow(Presentation presentation) {
 		this.setTitle(JABTITLE);
 		
 		// Add window close handler
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				System.exit(0);
+				try {
+					System.exit(0);
+				} catch (SecurityException ex) {
+					ErrorHandler.handleGeneralError(ex, SlideViewerFrame.this);
+				}
 			}
 		});
 		
 		// Add components and controllers
-		this.getContentPane().add(slideViewerComponent);
-		this.addKeyListener(new KeyController(presentation));
+		this.getContentPane().add(this.slideViewerComponent);
+		this.addKeyListener(new KeyController(presentation, this));
 		this.setMenuBar(new MenuController(this, presentation));
 		
 		// Set window properties

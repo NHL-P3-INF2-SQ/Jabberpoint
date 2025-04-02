@@ -1,3 +1,4 @@
+package jabberpoint.ui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
@@ -5,16 +6,23 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import jabberpoint.model.Slide;
+import jabberpoint.model.Presentation;
+import jabberpoint.ui.renderer.PresentationRenderer;
+import jabberpoint.ui.renderer.SwingPresentationRenderer;
+import jabberpoint.observer.PresentationObserver;
+import jabberpoint.util.ErrorHandler;
 
 /**
  * A graphical component that displays slides in a presentation.
- * This component handles the rendering of slides and their content,
- * including the slide number indicator.
+ * This component uses the Bridge pattern to delegate rendering to a PresentationRenderer,
+ * allowing for different rendering implementations.
+ * Implements the Observer pattern to receive updates from the presentation model.
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
  */
-public class SlideViewerComponent extends JComponent {
+public class SlideViewerComponent extends JComponent implements PresentationObserver {
     
     private static final long serialVersionUID = 227L;
     
@@ -26,7 +34,7 @@ public class SlideViewerComponent extends JComponent {
     /**
      * The font used for labels.
      */
-    private Font labelFont;
+    private final Font labelFont;
     
     /**
      * The presentation being displayed.
@@ -50,16 +58,28 @@ public class SlideViewerComponent extends JComponent {
     private static final int YPOS = 20;
 
     /**
+     * The renderer responsible for drawing the presentation.
+     */
+    private final PresentationRenderer renderer;
+
+    /**
      * Creates a new SlideViewerComponent for the specified presentation.
      *
      * @param presentation The presentation to display
      * @param frame The parent frame containing this component
+     * @throws IllegalArgumentException if presentation or frame is null
      */
     public SlideViewerComponent(Presentation presentation, JFrame frame) {
+        if (presentation == null || frame == null) {
+            throw new IllegalArgumentException("Presentation and frame must not be null");
+        }
+        
         this.setBackground(BGCOLOR);
         this.presentation = presentation;
         this.labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
         this.frame = frame;
+        this.renderer = new SwingPresentationRenderer(frame);
+        this.presentation.addObserver(this);
     }
 
     /**
@@ -73,50 +93,40 @@ public class SlideViewerComponent extends JComponent {
     }
 
     /**
-     * Updates the component with new presentation data.
+     * Called when the presentation state changes.
+     * Implements the PresentationObserver interface.
      *
-     * @param presentation The presentation containing the data
-     * @param slide The slide to display
+     * @param presentation The presentation that changed
+     * @param currentSlide The current slide being displayed
      */
-    public void update(Presentation presentation, Slide slide) {
-        if (slide == null) {
-            repaint();
+    @Override
+    public void onPresentationUpdate(Presentation presentation, Slide currentSlide) {
+        if (presentation == null) {
+            ErrorHandler.handleValidationError("Presentation update received with null presentation", this);
             return;
         }
         this.presentation = presentation;
-        this.slide = slide;
+        this.slide = currentSlide;
+        this.renderer.updateTitle(presentation);
         repaint();
-        this.frame.setTitle(presentation.getTitle());
     }
 
     /**
-     * Paints the component, including the slide content and slide number indicator.
+     * Paints the component using the configured renderer.
      *
      * @param graphics The graphics context to paint on
      */
     @Override
     public void paintComponent(Graphics graphics) {
-        // Fill background
-        graphics.setColor(BGCOLOR);
-        graphics.fillRect(0, 0, getSize().width, getSize().height);
+        super.paintComponent(graphics);
         
-        if (this.presentation.getSlideNumber() < 0 || this.slide == null) {
+        if (graphics == null || this.presentation == null || 
+            this.presentation.getSlideNumber() < 0 || this.slide == null) {
             return;
         }
         
-        // Draw slide number indicator
-        graphics.setFont(this.labelFont);
-        graphics.setColor(COLOR);
-        graphics.drawString(
-            String.format("Slide %d of %d",
-                this.presentation.getSlideNumber() + 1,
-                this.presentation.getSize()),
-            XPOS,
-            YPOS
-        );
-        
-        // Draw slide content
-        Rectangle area = new Rectangle(0, YPOS, getWidth(), getHeight() - YPOS);
-        this.slide.draw(graphics, area, this);
+        Rectangle area = new Rectangle(0, 0, getWidth(), getHeight());
+        this.renderer.renderSlide(graphics, this.slide, area, 
+            this.presentation.getSlideNumber(), this.presentation.getSize());
     }
 }
