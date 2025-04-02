@@ -121,13 +121,13 @@ public class Slide {
 
 		// Draw the title
 		SlideItem titleItem = new TextItem(0, this.getTitle());
-		Style titleStyle = Style.getStyle(titleItem.getLevel());
+		StyleAttributes titleStyle = Style.getStyle(titleItem.getLevel());
 		titleItem.draw(area.x, yPosition, scale, graphics, titleStyle, observer);
 		yPosition += titleItem.getBoundingBox(graphics, observer, scale, titleStyle).height;
 
 		// Draw each slide item
 		for (SlideItem item : this.getSlideItems()) {
-			Style itemStyle = Style.getStyle(item.getLevel());
+			StyleAttributes itemStyle = Style.getStyle(item.getLevel());
 			item.draw(area.x, yPosition, scale, graphics, itemStyle, observer);
 			yPosition += item.getBoundingBox(graphics, observer, scale, itemStyle).height;
 		}

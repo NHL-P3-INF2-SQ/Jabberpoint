@@ -67,7 +67,7 @@ public class TextItem extends SlideItem {
      * @param scale The scale factor to apply
      * @return An AttributedString with the applied style
      */
-    private AttributedString getAttributedString(Style style, float scale) {
+    private AttributedString getAttributedString(StyleAttributes style, float scale) {
         AttributedString attrStr = new AttributedString(this.getText());
         attrStr.addAttribute(TextAttribute.FONT, style.getFont(scale), 0, this.getText().length());
         return attrStr;
@@ -83,7 +83,7 @@ public class TextItem extends SlideItem {
      * @return A Rectangle representing the bounding box
      */
     @Override
-    public Rectangle getBoundingBox(Graphics graphics, ImageObserver observer, float scale, Style style) {
+    public Rectangle getBoundingBox(Graphics graphics, ImageObserver observer, float scale, StyleAttributes style) {
         List<TextLayout> layouts = this.getLayouts(graphics, style, scale);
         int xSize = 0;
         int ySize = (int) (style.getLeading() * scale);
@@ -111,7 +111,7 @@ public class TextItem extends SlideItem {
      * @param observer The image observer
      */
     @Override
-    public void draw(int x, int y, float scale, Graphics graphics, Style style, ImageObserver observer) {
+    public void draw(int x, int y, float scale, Graphics graphics, StyleAttributes style, ImageObserver observer) {
         if (this.getText().isEmpty()) {
             return;
         }
@@ -140,7 +140,7 @@ public class TextItem extends SlideItem {
      * @param scale The scale factor to apply
      * @return A list of TextLayout objects
      */
-    private List<TextLayout> getLayouts(Graphics graphics, Style style, float scale) {
+    private List<TextLayout> getLayouts(Graphics graphics, StyleAttributes style, float scale) {
         List<TextLayout> layouts = new ArrayList<>();
         AttributedString attrStr = this.getAttributedString(style, scale);
         Graphics2D graphics2D = (Graphics2D) graphics;
