@@ -81,7 +81,8 @@ public class PresentationReceiver {
     }
 
     /**
-     * Create a new presentation
+     * Creates a new empty presentation while preserving existing observers.
+     * This method will notify all registered listeners and observers about the change.
      */
     public void newPresentation() {
         // Save current observers
@@ -99,10 +100,8 @@ public class PresentationReceiver {
         this.presentation = newPresentation;
         
         // Notify all components about the new presentation
+        // This will trigger updates for both PresentationUpdateListeners and PresentationObservers
         this.notifyPresentationChanged();
-        
-        // Notify observers about the new presentation state
-        this.presentation.notifyObservers();
     }
 
     /**
