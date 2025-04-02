@@ -4,8 +4,10 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import javax.swing.JFrame;
 import jabberpoint.model.Presentation;
+import jabberpoint.model.PresentationReceiver;
 import jabberpoint.controller.KeyController;
 import jabberpoint.controller.MenuController;
+import jabberpoint.util.ErrorHandler;
 
 /**
  * The main application window for displaying presentations.
@@ -39,7 +41,6 @@ public class SlideViewerFrame extends JFrame {
 	public SlideViewerFrame(String title, Presentation presentation) {
 		super(title);
 		this.slideViewerComponent = new SlideViewerComponent(presentation, this);
-		presentation.setShowView(this.slideViewerComponent);
 		this.setupWindow(presentation);
 	}
 
@@ -57,14 +58,21 @@ public class SlideViewerFrame extends JFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				System.exit(0);
+				try {
+					System.exit(0);
+				} catch (SecurityException ex) {
+					ErrorHandler.handleGeneralError(ex, SlideViewerFrame.this);
+				}
 			}
 		});
 		
+		// Create a single PresentationReceiver instance to be shared
+		PresentationReceiver receiver = new PresentationReceiver(presentation, this);
+		
 		// Add components and controllers
 		this.getContentPane().add(this.slideViewerComponent);
-		this.addKeyListener(new KeyController(presentation));
-		this.setMenuBar(new MenuController(this, presentation));
+		this.addKeyListener(new KeyController(receiver));
+		this.setMenuBar(new MenuController(this, receiver));
 		
 		// Set window properties
 		this.setSize(new Dimension(WIDTH, HEIGHT));

@@ -2,22 +2,68 @@ package jabberpoint.model;
 import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.JOptionPane;
 import java.io.File;
+import java.util.ArrayList;
 import jabberpoint.io.XMLAccessor;
 import jabberpoint.io.Accessor;
+import jabberpoint.util.ErrorHandler;
+import jabberpoint.observer.PresentationObserver;
+import javax.swing.JFrame;
+
 /**
- * Receiver class that handles all presentation operations
+ * Receiver class that handles all presentation operations.
+ * This class implements the Command pattern's receiver role,
+ * executing the actual operations requested by commands.
+ *
+ * @author Jesse van der Voet, Bram Suurd
+ * @version 1.7 2024/04/02
  */
 public class PresentationReceiver {
     private Presentation presentation;
+    private JFrame parentFrame;
+    private final ArrayList<PresentationUpdateListener> presentationListeners;
 
     /**
-     * Constructor that takes a presentation
-     * @param presentation The presentation to operate on
+     * Interface for components that need to be notified of presentation changes
      */
-    public PresentationReceiver(Presentation presentation) {
+    public interface PresentationUpdateListener {
+        void onPresentationChanged(Presentation newPresentation);
+    }
+
+    /**
+     * Constructor that takes a presentation and parent frame
+     * @param presentation The presentation to operate on
+     * @param parentFrame The parent frame for dialogs
+     */
+    public PresentationReceiver(Presentation presentation, JFrame parentFrame) {
         this.presentation = presentation;
+        this.parentFrame = parentFrame;
+        this.presentationListeners = new ArrayList<>();
+    }
+
+    /**
+     * Adds a listener to be notified when the presentation changes
+     * @param listener The listener to add
+     */
+    public void addPresentationUpdateListener(PresentationUpdateListener listener) {
+        this.presentationListeners.add(listener);
+    }
+
+    /**
+     * Notifies all listeners about the presentation change
+     */
+    private void notifyPresentationChanged() {
+        for (PresentationUpdateListener listener : this.presentationListeners) {
+            listener.onPresentationChanged(this.presentation);
+        }
+    }
+
+    /**
+     * Gets the current presentation
+     * @return The current presentation
+     */
+    public Presentation getPresentation() {
+        return this.presentation;
     }
 
     /**
@@ -35,10 +81,27 @@ public class PresentationReceiver {
     }
 
     /**
-     * Create a new presentation
+     * Creates a new empty presentation while preserving existing observers.
+     * This method will notify all registered listeners and observers about the change.
      */
     public void newPresentation() {
-        this.presentation = new Presentation();
+        // Save current observers
+        ArrayList<PresentationObserver> currentObservers = new ArrayList<>(this.presentation.getObservers());
+        
+        // Create new presentation
+        Presentation newPresentation = new Presentation();
+        
+        // Restore observers to the new presentation
+        for (PresentationObserver observer : currentObservers) {
+            newPresentation.addObserver(observer);
+        }
+        
+        // Update the presentation reference
+        this.presentation = newPresentation;
+        
+        // Notify all components about the new presentation
+        // This will trigger updates for both PresentationUpdateListeners and PresentationObservers
+        this.notifyPresentationChanged();
     }
 
     /**
@@ -55,18 +118,24 @@ public class PresentationReceiver {
             fileChooser.setCurrentDirectory(downloadsDir);
         }
 
-        int returnVal = fileChooser.showOpenDialog(null);
+        int returnVal = fileChooser.showOpenDialog(parentFrame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
-                this.presentation.clear();  // Clear the current presentation
+                String filePath = fileChooser.getSelectedFile().getPath();
+                
+                // Create new presentation while preserving observers
+                this.newPresentation();
+                
+                // Load the selected file
                 Accessor accessor = new XMLAccessor();
-                accessor.loadFile(this.presentation, fileChooser.getSelectedFile().getPath());
-                this.presentation.setSlideNumber(0);  // Reset to first slide
+                accessor.loadFile(this.presentation, filePath);
+                
+                // Reset to first slide to display the loaded presentation
+                this.presentation.setSlideNumber(0);
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, 
-                    "Error loading presentation: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+                ErrorHandler.handleIOError(e, parentFrame);
+            } catch (Exception e) {
+                ErrorHandler.handleGeneralError(e, parentFrame);
             }
         }
     }
@@ -88,7 +157,7 @@ public class PresentationReceiver {
         // Suggest a default filename
         fileChooser.setSelectedFile(new File("presentation.xml"));
 
-        int returnVal = fileChooser.showSaveDialog(null);
+        int returnVal = fileChooser.showSaveDialog(parentFrame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 Accessor accessor = new XMLAccessor();
@@ -99,10 +168,7 @@ public class PresentationReceiver {
                 }
                 accessor.saveFile(this.presentation, filePath);
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, 
-                    "Error saving presentation: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+                ErrorHandler.handleIOError(e, parentFrame);
             }
         }
     }
@@ -111,6 +177,10 @@ public class PresentationReceiver {
      * Exit the presentation
      */
     public void exitPresentation() {
-        System.exit(0);
+        try {
+            System.exit(0);
+        } catch (SecurityException ex) {
+            ErrorHandler.handleGeneralError(ex, parentFrame);
+        }
     }
 } 

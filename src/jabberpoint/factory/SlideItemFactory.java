@@ -3,6 +3,7 @@ package jabberpoint.factory;
 import jabberpoint.model.SlideItem;
 import jabberpoint.model.TextItem;
 import jabberpoint.model.BitmapItem;
+import jabberpoint.util.ErrorHandler;
 
 /**
  * Factory class for creating different types of slide items.
@@ -25,6 +26,7 @@ public class SlideItemFactory {
      */
     public static SlideItem createSlideItem(String kind, int level, String content) {
         if (kind == null) {
+            ErrorHandler.handleValidationError("Item kind cannot be null", null);
             throw new IllegalArgumentException("Item kind cannot be null");
         }
         
@@ -34,6 +36,7 @@ public class SlideItemFactory {
             case "image":
                 return createBitmapItem(level, content);
             default:
+                ErrorHandler.handleValidationError("Unknown item kind: " + kind, null);
                 throw new IllegalArgumentException("Unknown item kind: " + kind);
         }
     }

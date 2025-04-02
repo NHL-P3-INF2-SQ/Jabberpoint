@@ -16,7 +16,7 @@ import jabberpoint.model.PresentationReceiver;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
  */
-public class KeyController extends KeyAdapter {
+public class KeyController extends KeyAdapter implements PresentationReceiver.PresentationUpdateListener {
     
     /**
      * Command for navigating to the next slide
@@ -34,15 +34,21 @@ public class KeyController extends KeyAdapter {
     private final Command exitCommand;
 
     /**
-     * Creates a new KeyController for the specified presentation.
+     * Creates a new KeyController with the specified presentation receiver.
      *
-     * @param presentation The presentation to control
+     * @param receiver The presentation receiver to use for commands
      */
-    public KeyController(Presentation presentation) {
-        PresentationReceiver receiver = new PresentationReceiver(presentation);
+    public KeyController(PresentationReceiver receiver) {
+        receiver.addPresentationUpdateListener(this);  // Register for presentation updates
+        
         this.nextSlideCommand = new NextSlideCommand(receiver);
         this.prevSlideCommand = new PreviousSlideCommand(receiver);
         this.exitCommand = new ExitPresentationCommand(receiver);
+    }
+
+    @Override
+    public void onPresentationChanged(Presentation newPresentation) {
+        // No need to store the presentation reference as we use commands
     }
 
     /**
@@ -59,16 +65,15 @@ public class KeyController extends KeyAdapter {
             case KeyEvent.VK_PAGE_DOWN:
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_ENTER:
-            case '+':
+            case KeyEvent.VK_PLUS:
                 this.nextSlideCommand.execute();
                 break;
             case KeyEvent.VK_PAGE_UP:
             case KeyEvent.VK_UP:
-            case '-':
+            case KeyEvent.VK_MINUS:
                 this.prevSlideCommand.execute();
                 break;
-            case 'q':
-            case 'Q':
+            case KeyEvent.VK_Q:
                 this.exitCommand.execute();
                 break;
             default:
