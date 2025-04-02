@@ -9,7 +9,7 @@ import java.awt.Font;
  * while allowing specific style types to customize behavior.
  * 
  * @author Bram Suurd
- * @version 1.7 2024/04/02
+ * @version 1.0 2025/04/01
  */
 public abstract class AbstractStyle implements StyleAttributes {
     /**
@@ -94,4 +94,4 @@ public abstract class AbstractStyle implements StyleAttributes {
         return String.format("[%d,%s; %d on %d]", 
             this.indent, this.color, this.fontSize, this.leading);
     }
-} 
+}

@@ -3,6 +3,9 @@ import jabberpoint.model.PresentationReceiver;
 
 /**
  * Command to save the current presentation
+ *
+ * @author Jesse van der Voet, Bram Suurd
+ * @version 1.0 2025/04/01
  */
 public class SavePresentationCommand implements Command {
     private final PresentationReceiver receiver;
@@ -19,4 +22,4 @@ public class SavePresentationCommand implements Command {
     public void execute() {
         this.receiver.savePresentation();
     }
-} 
+}

@@ -11,6 +11,9 @@ import jabberpoint.model.Presentation;
 /**
  * Swing-based implementation of the PresentationRenderer interface.
  * This class handles rendering presentations using Java Swing components.
+ *
+ * @author Jesse van der Voet, Bram Suurd
+ * @version 1.0 2025/04/01
  */
 public class SwingPresentationRenderer implements PresentationRenderer {
     private static final Color BGCOLOR = Color.white;
@@ -65,4 +68,4 @@ public class SwingPresentationRenderer implements PresentationRenderer {
             this.frame.setTitle(presentation.getTitle());
         }
     }
-} 
+}
