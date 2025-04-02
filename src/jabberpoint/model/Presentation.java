@@ -112,8 +112,10 @@ public class Presentation implements PresentationSubject {
 	 * Clears the presentation, removing all slides.
 	 */
 	public void clear() {
+		// Save current observers before clearing
+		ArrayList<PresentationObserver> currentObservers = this.observers;
 		this.showList = new ArrayList<>();
-		this.observers = new ArrayList<>();
+		this.observers = currentObservers;  // Restore observers
 		this.setSlideNumber(-1);
 	}
 
@@ -172,5 +174,14 @@ public class Presentation implements PresentationSubject {
 		for (PresentationObserver observer : this.observers) {
 			observer.onPresentationUpdate(this, this.getCurrentSlide());
 		}
+	}
+
+	/**
+	 * Gets the list of observers.
+	 *
+	 * @return The list of presentation observers
+	 */
+	public ArrayList<PresentationObserver> getObservers() {
+		return this.observers;
 	}
 }
