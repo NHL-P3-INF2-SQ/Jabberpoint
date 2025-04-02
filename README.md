@@ -18,6 +18,36 @@ JabberPoint is a Java-based presentation tool that allows you to create and disp
 - Keyboard navigation
 - Menu-based controls
 
+## Design Patterns
+
+The rework of JabberPoint implements several design patterns to improve code organization, maintainability, and flexibility:
+
+### Observer Pattern
+
+- Used for presentation state changes notification
+- Implemented through `PresentationSubject` and `PresentationObserver` interfaces
+- Allows UI components to update automatically when presentation state changes
+- Found in `SlideViewerComponent` and other UI elements
+
+### Command Pattern
+
+- Implements all user actions as command objects
+- Each command (Next, Previous, Open, Save, etc.) encapsulates a specific action
+- Commands are executed through a common `Command` interface
+- Provides easy extension for new commands and better separation of concerns
+
+### Factory Pattern
+
+- `StyleFactory` creates different style implementations for text formatting
+- `SlideItemFactory` handles creation of different types of slide items (text and images)
+- Centralizes object creation logic and improves maintainability
+
+### Bridge Pattern
+
+- Used in `SlideViewerComponent` for rendering
+- Separates abstraction (`SlideViewerComponent`) from implementation (`PresentationRenderer`)
+- Allows for different rendering implementations without changing the viewer component
+
 ## Requirements
 
 - Java 21 or higher
