@@ -6,7 +6,7 @@ import jabberpoint.model.PresentationReceiver;
  * Command to exit the presentation
  * 
  * @author Jesse van der Voet, Bram Suurd
- * @version 1.7 2024/04/01
+ * @version 1.0 2025/04/01
  */
 public class ExitPresentationCommand implements Command {
     private final PresentationReceiver receiver;
@@ -23,4 +23,4 @@ public class ExitPresentationCommand implements Command {
     public void execute() {
         this.receiver.exitPresentation();
     }
-} 
+}

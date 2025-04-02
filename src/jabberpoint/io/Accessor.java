@@ -10,7 +10,7 @@ import jabberpoint.util.DemoPresentation;
  * how presentation data should be loaded from and saved to different storage formats.
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
- * @version 1.7 2024/04/1 Updated with improved documentation and encapsulation
+ * @version 1.0 2025/04/01
  */
 public abstract class Accessor {
 	

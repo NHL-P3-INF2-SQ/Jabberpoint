@@ -9,6 +9,9 @@ import jabberpoint.model.Presentation;
  * Interface defining the abstraction for rendering presentations.
  * This is part of the Bridge pattern, allowing different rendering implementations
  * to be used with the same presentation abstraction.
+ *
+ * @author Jesse van der Voet, Bram Suurd
+ * @version 1.0 2025/04/01
  */
 public interface PresentationRenderer {
     /**
@@ -28,4 +31,4 @@ public interface PresentationRenderer {
      * @param presentation The presentation containing the title
      */
     void updateTitle(Presentation presentation);
-} 
+}
