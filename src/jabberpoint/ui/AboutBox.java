@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
  * authors, and licensing terms.
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
- * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
+ * @version 1.0 2025/04/01
  */
 public class AboutBox {
     

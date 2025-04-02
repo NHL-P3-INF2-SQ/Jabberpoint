@@ -18,9 +18,8 @@ import jabberpoint.util.ErrorHandler;
  * This component uses the Bridge pattern to delegate rendering to a PresentationRenderer,
  * allowing for different rendering implementations.
  * Implements the Observer pattern to receive updates from the presentation model.
- *
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
- * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
+ * 
+ * @version 1.0 2025/04/01
  */
 public class SlideViewerComponent extends JComponent implements PresentationObserver {
     

@@ -10,7 +10,7 @@ import jabberpoint.model.StyleAttributes;
  * to create style objects with different configurations.
  * 
  * @author Bram Suurd
- * @version 1.7 2024/04/01
+ * @version 1.0 2025/04/01
  */
 public class StyleFactory {
     /**
@@ -70,4 +70,4 @@ public class StyleFactory {
     public static StyleAttributes createCustomStyle(int indent, Color color, int fontSize, int leading) {
         return new Style(indent, color, fontSize, leading);
     }
-} 
+}

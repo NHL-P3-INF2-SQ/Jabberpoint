@@ -10,8 +10,7 @@ import jabberpoint.util.ErrorHandler;
  * This class encapsulates the creation logic for text and bitmap items,
  * following the Factory pattern.
  * 
- * @author Jesse van der Voet, Bram Suurd
- * @version 1.7 2024/04/01
+ * @version 1.0 2025/04/01
  */
 public class SlideItemFactory {
     

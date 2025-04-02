@@ -65,4 +65,4 @@ public class SwingPresentationRenderer implements PresentationRenderer {
             this.frame.setTitle(presentation.getTitle());
         }
     }
-} 
+}

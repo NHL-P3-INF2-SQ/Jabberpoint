@@ -15,7 +15,7 @@ import jabberpoint.util.ErrorHandler;
  * along with its associated controllers.
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
- * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
+ * @version 1.0 2025/04/01
  */
 public class SlideViewerFrame extends JFrame {
 	private static final long serialVersionUID = 3227L;

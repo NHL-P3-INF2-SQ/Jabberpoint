@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
  * to ensure consistent error management across the application.
  *
  * @author Bram Suurd
- * @version 1.7 2024/04/02
+ * @version 1.0 2025/04/01
  */
 public final class ErrorHandler {
     
@@ -83,4 +83,4 @@ public final class ErrorHandler {
             JOptionPane.ERROR_MESSAGE
         );
     }
-} 
+}

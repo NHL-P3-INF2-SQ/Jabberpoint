@@ -9,9 +9,8 @@ import jabberpoint.observer.PresentationSubject;
  * This class maintains the collection of slides and handles navigation between them.
  * There is typically only one instance of this class per presentation.
  * Implements the Observer pattern to notify UI components of state changes.
- *
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
- * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
+ * 
+ * @version 1.0 2025/04/01
  */
 public class Presentation implements PresentationSubject {
 	
