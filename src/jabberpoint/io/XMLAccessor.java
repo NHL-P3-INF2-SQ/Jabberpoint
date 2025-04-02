@@ -9,6 +9,7 @@ import jabberpoint.model.SlideItem;
 import jabberpoint.factory.SlideItemFactory;
 import jabberpoint.model.TextItem;
 import jabberpoint.model.BitmapItem;
+import jabberpoint.util.ErrorHandler;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,7 +21,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
-
 /**
  * XMLAccessor handles reading and writing presentations in XML format.
  * This class provides functionality to load presentations from XML files
@@ -29,7 +29,6 @@ import org.w3c.dom.NodeList;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
  */
-
 public class XMLAccessor extends Accessor {
 	
     /**
@@ -43,13 +42,6 @@ public class XMLAccessor extends Accessor {
     private static final String KIND = "kind";
     private static final String TEXT = "text";
     private static final String IMAGE = "image";
-    
-    /**
-     * Error messages
-     */
-    private static final String ERROR_PARSER_CONFIG = "Parser Configuration Exception";
-    private static final String ERROR_UNKNOWN_TYPE = "Unknown Element type";
-    private static final String ERROR_NUMBER_FORMAT = "Number Format Exception";
     
     /**
      * XML document constants
@@ -102,11 +94,10 @@ public class XMLAccessor extends Accessor {
                 }
             }
         } catch (ParserConfigurationException e) {
-            System.err.println(ERROR_PARSER_CONFIG);
+            ErrorHandler.handleParserError(e, null);
         } catch (SAXException e) {
-            System.err.println(e.getMessage());
+            ErrorHandler.handleParserError(e, null);
         } catch (IOException e) {
-            System.err.println(e.toString());
             throw e;
         }
     }
@@ -118,28 +109,26 @@ public class XMLAccessor extends Accessor {
      * @param item The XML element containing the item data
      */
     private void loadSlideItem(Slide slide, Element item) {
-        // Get the level attribute
-        int level = 1; // default level
-        NamedNodeMap attributes = item.getAttributes();
-        String levelText = attributes.getNamedItem(LEVEL).getTextContent();
-        if (levelText != null) {
-            try {
-                level = Integer.parseInt(levelText);
-            } catch (NumberFormatException e) {
-                System.err.println(ERROR_NUMBER_FORMAT);
-            }
-        }
-
-        // Get the type and content
-        String type = attributes.getNamedItem(KIND).getTextContent();
-        String content = item.getTextContent();
-        
         try {
+            // Get the level attribute
+            int level = 1; // default level
+            NamedNodeMap attributes = item.getAttributes();
+            String levelText = attributes.getNamedItem(LEVEL).getTextContent();
+            if (levelText != null) {
+                level = Integer.parseInt(levelText);
+            }
+
+            // Get the type and content
+            String type = attributes.getNamedItem(KIND).getTextContent();
+            String content = item.getTextContent();
+            
             // Use the factory to create the appropriate slide item
             SlideItem slideItem = SlideItemFactory.createSlideItem(type, level, content);
             slide.append(slideItem);
+        } catch (NumberFormatException e) {
+            ErrorHandler.handleValidationError("Invalid level number in slide item", null);
         } catch (IllegalArgumentException e) {
-            System.err.println(ERROR_UNKNOWN_TYPE + ": " + type);
+            ErrorHandler.handleValidationError("Unknown slide item type", null);
         }
     }
 
@@ -181,7 +170,7 @@ public class XMLAccessor extends Accessor {
                         out.printf("%s\" level=\"%d\">%s", 
                             IMAGE, slideItem.getLevel(), bitmapItem.getImagePath());
                     } else {
-                        System.out.println("Ignoring " + slideItem);
+                        ErrorHandler.handleValidationError("Unknown slide item type", null);
                         continue;
                     }
                     out.println("</" + ITEM + ">");

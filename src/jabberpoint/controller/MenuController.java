@@ -14,6 +14,7 @@ import jabberpoint.command.OpenPresentationCommand;
 import jabberpoint.command.SavePresentationCommand;
 import jabberpoint.command.ExitPresentationCommand;
 import jabberpoint.ui.AboutBox;
+import jabberpoint.util.ErrorHandler;
 
 /**
  * Controls the menu system of the presentation application.
@@ -68,7 +69,7 @@ public class MenuController extends MenuBar {
 		this.parent = frame;
 		this.presentation = presentation;
 		
-		PresentationReceiver receiver = new PresentationReceiver(presentation);
+		PresentationReceiver receiver = new PresentationReceiver(presentation, (javax.swing.JFrame)frame);
 		this.newPresentationCommand = new NewPresentationCommand(receiver);
 		this.openPresentationCommand = new OpenPresentationCommand(receiver);
 		this.savePresentationCommand = new SavePresentationCommand(receiver);
@@ -122,12 +123,12 @@ public class MenuController extends MenuBar {
 		
 		// Go to slide menu item
 		MenuItem gotoItem = createMenuItem(GOTO, 'G', event -> {
-			String pageNumberStr = JOptionPane.showInputDialog(PAGENR);
+			String pageNumberStr = JOptionPane.showInputDialog(parent, PAGENR);
 			try {
 				int pageNumber = Integer.parseInt(pageNumberStr);
 				presentation.setSlideNumber(pageNumber - 1);
 			} catch (NumberFormatException ex) {
-				// Ignore invalid input
+				ErrorHandler.handleValidationError("Invalid page number format", parent);
 			}
 		});
 		viewMenu.add(gotoItem);
@@ -154,8 +155,8 @@ public class MenuController extends MenuBar {
 	 * @return The created MenuItem
 	 */
 	private MenuItem createMenuItem(String name, char shortcut, ActionListener listener) {
-		MenuItem menuItem = new MenuItem(name, new MenuShortcut(shortcut));
-		menuItem.addActionListener(listener);
-		return menuItem;
+		MenuItem item = new MenuItem(name, new MenuShortcut(shortcut));
+		item.addActionListener(listener);
+		return item;
 	}
 }

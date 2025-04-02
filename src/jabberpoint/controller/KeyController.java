@@ -1,6 +1,7 @@
 package jabberpoint.controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
+import javax.swing.JFrame;
 import jabberpoint.command.Command;
 import jabberpoint.command.NextSlideCommand;
 import jabberpoint.command.PreviousSlideCommand;
@@ -37,9 +38,10 @@ public class KeyController extends KeyAdapter {
      * Creates a new KeyController for the specified presentation.
      *
      * @param presentation The presentation to control
+     * @param parentFrame The parent frame for dialogs
      */
-    public KeyController(Presentation presentation) {
-        PresentationReceiver receiver = new PresentationReceiver(presentation);
+    public KeyController(Presentation presentation, JFrame parentFrame) {
+        PresentationReceiver receiver = new PresentationReceiver(presentation, parentFrame);
         this.nextSlideCommand = new NextSlideCommand(receiver);
         this.prevSlideCommand = new PreviousSlideCommand(receiver);
         this.exitCommand = new ExitPresentationCommand(receiver);
