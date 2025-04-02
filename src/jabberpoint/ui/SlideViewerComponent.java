@@ -11,7 +11,6 @@ import jabberpoint.model.Presentation;
 import jabberpoint.ui.renderer.PresentationRenderer;
 import jabberpoint.ui.renderer.SwingPresentationRenderer;
 import jabberpoint.observer.PresentationObserver;
-import jabberpoint.util.ErrorHandler;
 
 /**
  * A graphical component that displays slides in a presentation.
@@ -102,7 +101,6 @@ public class SlideViewerComponent extends JComponent implements PresentationObse
     @Override
     public void onPresentationUpdate(Presentation presentation, Slide currentSlide) {
         if (presentation == null) {
-            ErrorHandler.handleValidationError("Presentation update received with null presentation", this);
             return;
         }
         this.presentation = presentation;

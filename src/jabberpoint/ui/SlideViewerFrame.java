@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import jabberpoint.model.Presentation;
 import jabberpoint.controller.KeyController;
 import jabberpoint.controller.MenuController;
-import jabberpoint.util.ErrorHandler;
 
 /**
  * The main application window for displaying presentations.
@@ -57,17 +56,13 @@ public class SlideViewerFrame extends JFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				try {
-					System.exit(0);
-				} catch (SecurityException ex) {
-					ErrorHandler.handleGeneralError(ex, SlideViewerFrame.this);
-				}
+				System.exit(0);
 			}
 		});
 		
 		// Add components and controllers
 		this.getContentPane().add(this.slideViewerComponent);
-		this.addKeyListener(new KeyController(presentation, this));
+		this.addKeyListener(new KeyController(presentation));
 		this.setMenuBar(new MenuController(this, presentation));
 		
 		// Set window properties
