@@ -1,17 +1,19 @@
 package jabberpoint.model;
 
 import java.util.ArrayList;
-import jabberpoint.ui.SlideViewerComponent;
+import jabberpoint.observer.PresentationObserver;
+import jabberpoint.observer.PresentationSubject;
 
 /**
  * Manages a presentation consisting of multiple slides.
  * This class maintains the collection of slides and handles navigation between them.
  * There is typically only one instance of this class per presentation.
+ * Implements the Observer pattern to notify UI components of state changes.
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
  */
-public class Presentation {
+public class Presentation implements PresentationSubject {
 	
 	/**
 	 * The title of the presentation.
@@ -29,25 +31,17 @@ public class Presentation {
 	private int currentSlideNumber;
 	
 	/**
-	 * The component responsible for displaying slides.
+	 * List of observers interested in presentation changes.
 	 */
-	private SlideViewerComponent slideViewComponent;
+	private ArrayList<PresentationObserver> observers;
 
 	/**
 	 * Creates a new empty presentation.
 	 */
 	public Presentation() {
-		this(null);
-	}
-
-	/**
-	 * Creates a new presentation with the specified viewer component.
-	 *
-	 * @param slideViewerComponent The component to display slides
-	 */
-	public Presentation(SlideViewerComponent slideViewerComponent) {
-		this.slideViewComponent = slideViewerComponent;
-		this.clear();
+		this.showList = new ArrayList<>();
+		this.observers = new ArrayList<>();
+		this.setSlideNumber(-1);
 	}
 
 	/**
@@ -78,15 +72,6 @@ public class Presentation {
 	}
 
 	/**
-	 * Sets the slide viewer component for this presentation.
-	 *
-	 * @param slideViewerComponent The component to display slides
-	 */
-	public void setShowView(SlideViewerComponent slideViewerComponent) {
-		this.slideViewComponent = slideViewerComponent;
-	}
-
-	/**
 	 * Gets the current slide number (0-based index).
 	 *
 	 * @return The current slide number
@@ -96,15 +81,13 @@ public class Presentation {
 	}
 
 	/**
-	 * Sets the current slide number and updates the display.
+	 * Sets the current slide number and updates observers.
 	 *
 	 * @param number The new slide number (0-based index)
 	 */
 	public void setSlideNumber(int number) {
 		this.currentSlideNumber = number;
-		if (this.slideViewComponent != null) {
-			this.slideViewComponent.update(this, this.getCurrentSlide());
-		}
+		this.notifyObservers();
 	}
 
 	/**
@@ -130,6 +113,7 @@ public class Presentation {
 	 */
 	public void clear() {
 		this.showList = new ArrayList<>();
+		this.observers = new ArrayList<>();
 		this.setSlideNumber(-1);
 	}
 
@@ -171,5 +155,22 @@ public class Presentation {
 	 */
 	public void exit(int status) {
 		System.exit(status);
+	}
+
+	@Override
+	public void addObserver(PresentationObserver observer) {
+		this.observers.add(observer);
+	}
+
+	@Override
+	public void removeObserver(PresentationObserver observer) {
+		this.observers.remove(observer);
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (PresentationObserver observer : this.observers) {
+			observer.onPresentationUpdate(this, this.getCurrentSlide());
+		}
 	}
 }
