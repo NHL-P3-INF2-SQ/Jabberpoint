@@ -10,18 +10,16 @@ import jabberpoint.model.Slide;
 import jabberpoint.model.Presentation;
 import jabberpoint.ui.renderer.PresentationRenderer;
 import jabberpoint.ui.renderer.SwingPresentationRenderer;
-import jabberpoint.observer.PresentationObserver;
 
 /**
  * A graphical component that displays slides in a presentation.
  * This component uses the Bridge pattern to delegate rendering to a PresentationRenderer,
  * allowing for different rendering implementations.
- * Implements the Observer pattern to receive updates from the presentation model.
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
  */
-public class SlideViewerComponent extends JComponent implements PresentationObserver {
+public class SlideViewerComponent extends JComponent {
     
     private static final long serialVersionUID = 227L;
     
@@ -33,7 +31,7 @@ public class SlideViewerComponent extends JComponent implements PresentationObse
     /**
      * The font used for labels.
      */
-    private final Font labelFont;
+    private Font labelFont;
     
     /**
      * The presentation being displayed.
@@ -66,19 +64,13 @@ public class SlideViewerComponent extends JComponent implements PresentationObse
      *
      * @param presentation The presentation to display
      * @param frame The parent frame containing this component
-     * @throws IllegalArgumentException if presentation or frame is null
      */
     public SlideViewerComponent(Presentation presentation, JFrame frame) {
-        if (presentation == null || frame == null) {
-            throw new IllegalArgumentException("Presentation and frame must not be null");
-        }
-        
         this.setBackground(BGCOLOR);
         this.presentation = presentation;
         this.labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
         this.frame = frame;
         this.renderer = new SwingPresentationRenderer(frame);
-        this.presentation.addObserver(this);
     }
 
     /**
@@ -92,19 +84,17 @@ public class SlideViewerComponent extends JComponent implements PresentationObse
     }
 
     /**
-     * Called when the presentation state changes.
-     * Implements the PresentationObserver interface.
+     * Updates the component with new presentation data.
      *
-     * @param presentation The presentation that changed
-     * @param currentSlide The current slide being displayed
+     * @param presentation The presentation containing the data
+     * @param slide The slide to display
      */
-    @Override
-    public void onPresentationUpdate(Presentation presentation, Slide currentSlide) {
+    public void update(Presentation presentation, Slide slide) {
         if (presentation == null) {
             return;
         }
         this.presentation = presentation;
-        this.slide = currentSlide;
+        this.slide = slide;
         this.renderer.updateTitle(presentation);
         repaint();
     }
@@ -118,8 +108,7 @@ public class SlideViewerComponent extends JComponent implements PresentationObse
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         
-        if (graphics == null || this.presentation == null || 
-            this.presentation.getSlideNumber() < 0 || this.slide == null) {
+        if (this.presentation == null || this.presentation.getSlideNumber() < 0 || this.slide == null) {
             return;
         }
         
