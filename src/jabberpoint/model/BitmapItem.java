@@ -140,7 +140,7 @@ public class BitmapItem extends SlideItem {
      * @return A Rectangle representing the bounding box
      */
     @Override
-    public Rectangle getBoundingBox(Graphics graphics, ImageObserver observer, float scale, Style style) {
+    public Rectangle getBoundingBox(Graphics graphics, ImageObserver observer, float scale, StyleAttributes style) {
         if (this.bufferedImage == null) {
             return new Rectangle();
         }
@@ -164,7 +164,7 @@ public class BitmapItem extends SlideItem {
      * @param observer The image observer
      */
     @Override
-    public void draw(int x, int y, float scale, Graphics graphics, Style style, ImageObserver observer) {
+    public void draw(int x, int y, float scale, Graphics graphics, StyleAttributes style, ImageObserver observer) {
         if (this.bufferedImage == null) {
             return;
         }
