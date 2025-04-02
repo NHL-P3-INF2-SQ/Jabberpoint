@@ -3,6 +3,7 @@ import jabberpoint.io.Accessor;
 import jabberpoint.model.Presentation;
 import jabberpoint.model.Slide;
 import jabberpoint.factory.SlideItemFactory;
+
 /**
  * A built-in demonstration presentation that provides a sample
  * presentation to showcase JabberPoint's features.
@@ -11,11 +12,6 @@ import jabberpoint.factory.SlideItemFactory;
  * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
  */
 public class DemoPresentation extends Accessor {
-
-	/**
-	 * Error message for attempted save operations.
-	 */
-	private static final String ERROR_SAVE_DEMO = "Cannot save demo presentation";
 
 	/**
 	 * Loads the demo presentation with predefined content.
@@ -28,53 +24,48 @@ public class DemoPresentation extends Accessor {
 	public void loadFile(Presentation presentation, String unusedFilename) {
 		presentation.setTitle("Demo Presentation");
 		
-		// First slide: Introduction
-		Slide introSlide = new Slide();
-		introSlide.setTitle("JabberPoint");
-		introSlide.append(1, "The Java Presentation Tool");
-		introSlide.append(2, "Copyright (c) 1996-2000: Ian Darwin");
-		introSlide.append(2, "Copyright (c) 2000-now:");
-		introSlide.append(2, "Gert Florijn and Sylvia Stuurman");
-		introSlide.append(4, "Running JabberPoint without a filename");
-		introSlide.append(4, "shows this presentation");
-		introSlide.append(1, "Navigation:");
-		introSlide.append(3, "Next slide: PgDn or Enter");
-		introSlide.append(3, "Previous slide: PgUp or up-arrow");
-		introSlide.append(3, "Quit: q or Q");
-		presentation.append(introSlide);
+		// Create first slide
+		Slide slide = new Slide();
+		slide.setTitle("JabberPoint");
+		slide.append(SlideItemFactory.createTextItem(1, "The Java presentation tool"));
+		slide.append(SlideItemFactory.createTextItem(2, "Copyright (c) 1996-now by Ian F. Darwin"));
+		slide.append(SlideItemFactory.createTextItem(2, "Adapted by Gert Florijn and Sylvia Stuurman"));
+		slide.append(SlideItemFactory.createTextItem(4, "JabberPoint® support: ian@darwinsys.com"));
+		presentation.append(slide);
 
-		// Second slide: Demonstration of levels and styles
-		Slide styleSlide = new Slide();
-		styleSlide.setTitle("Demonstration of Levels and Styles");
-		styleSlide.append(1, "Level 1");
-		styleSlide.append(2, "Level 2");
-		styleSlide.append(1, "Level 1 again");
-		styleSlide.append(1, "Level 1 uses style number 1");
-		styleSlide.append(2, "Level 2 uses style number 2");
-		styleSlide.append(3, "This is how level 3 looks");
-		styleSlide.append(4, "And this is level 4");
-		presentation.append(styleSlide);
+		// Create second slide
+		slide = new Slide();
+		slide.setTitle("What is JabberPoint?");
+		slide.append(SlideItemFactory.createTextItem(1, "JabberPoint is a primitive slide-show program in Java"));
+		slide.append(SlideItemFactory.createTextItem(2, "It is freely copyable as long as you keep this notice"));
+		slide.append(SlideItemFactory.createTextItem(2, "The slideshow data is read from text files"));
+		slide.append(SlideItemFactory.createTextItem(2, "Images referenced from the text files are displayed"));
+		slide.append(SlideItemFactory.createTextItem(1, "JabberPoint® was created by Ian F. Darwin"));
+		presentation.append(slide);
 
-		// Third slide: Final slide with image
-		Slide finalSlide = new Slide();
-		finalSlide.setTitle("The Third Slide");
-		finalSlide.append(1, "To open a new presentation,");
-		finalSlide.append(2, "use File->Open from the menu.");
-		finalSlide.append(1, " ");
-		finalSlide.append(1, "This is the end of the presentation.");
-		finalSlide.append(SlideItemFactory.createBitmapItem(1, "JabberPoint.jpg"));
-		presentation.append(finalSlide);
+		// Create third slide
+		slide = new Slide();
+		slide.setTitle("JabberPoint® features");
+		slide.append(SlideItemFactory.createTextItem(1, "Text and image items"));
+		slide.append(SlideItemFactory.createTextItem(2, "Different text styles and levels"));
+		slide.append(SlideItemFactory.createTextItem(2, "XML-based file format"));
+		slide.append(SlideItemFactory.createTextItem(2, "Keyboard and mouse navigation"));
+		slide.append(SlideItemFactory.createTextItem(2, "Automatic sizing and scaling"));
+		slide.append(SlideItemFactory.createTextItem(1, "Demonstration images"));
+		slide.append(SlideItemFactory.createBitmapItem(1, "JabberPoint.jpg"));
+		presentation.append(slide);
 	}
 
 	/**
 	 * Saving is not supported for the demo presentation.
 	 *
-	 * @param presentation The presentation to save
-	 * @param unusedFilename Unused parameter
-	 * @throws IllegalStateException Always thrown as saving is not supported
+	 * @param presentation The presentation to save (unused)
+	 * @param filename The filename to save to (unused)
+	 * @throws IllegalStateException Always, as saving is not supported
 	 */
 	@Override
-	public void saveFile(Presentation presentation, String unusedFilename) {
-		throw new IllegalStateException(ERROR_SAVE_DEMO);
+	public void saveFile(Presentation presentation, String filename) {
+		ErrorHandler.handleValidationError("Cannot save demo presentation", null);
+		throw new IllegalStateException("Cannot save demo presentation");
 	}
 }
