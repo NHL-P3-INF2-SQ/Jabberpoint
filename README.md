@@ -48,6 +48,31 @@ The rework of JabberPoint implements several design patterns to improve code org
 - Separates abstraction (`SlideViewerComponent`) from implementation (`PresentationRenderer`)
 - Allows for different rendering implementations without changing the viewer component
 
+### SOLID Principles Application
+
+The project demonstrates the application of SOLID principles, specifically focusing on the XMLAccessor class:
+
+#### Single Responsibility Principle (SRP)
+
+- The XMLAccessor class has been refactored to have a single responsibility: handling XML file operations
+- It focuses solely on reading from and writing to XML files
+- Other responsibilities like presentation management and data transformation have been separated into their own classes
+
+#### Open/Closed Principle (OCP)
+
+- The XMLAccessor is designed to be open for extension but closed for modification
+- New XML handling features can be added through extension rather than modifying existing code
+
+#### Interface Segregation Principle (ISP)
+
+- The XMLAccessor implements focused interfaces that are specific to its XML handling responsibilities
+- Clients are not forced to depend on methods they don't use
+
+#### Dependency Inversion Principle (DIP)
+
+- The XMLAccessor depends on abstractions rather than concrete implementations
+- High-level modules that use XMLAccessor depend on its interface rather than the concrete class
+
 ## Requirements
 
 - Java 21 or higher

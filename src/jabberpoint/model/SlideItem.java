@@ -8,7 +8,7 @@ import java.awt.image.ImageObserver;
  * All slide items have drawing functionality and can calculate their bounding box.
  * 
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
- * @version 1.7 2024/04/01 Updated with improved documentation and encapsulation
+ * @version 1.0 2025/04/01
  */
 public abstract class SlideItem {
 	/**

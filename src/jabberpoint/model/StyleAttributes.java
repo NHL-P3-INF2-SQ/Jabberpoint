@@ -9,7 +9,7 @@ import java.awt.Font;
  * used in rendering presentation elements.
  * 
  * @author Bram Suurd
- * @version 1.7 2024/04/02
+ * @version 1.0 2025/04/01
  */
 public interface StyleAttributes {
     /**
@@ -47,4 +47,4 @@ public interface StyleAttributes {
      * @return The font size in points
      */
     int getFontSize();
-} 
+}

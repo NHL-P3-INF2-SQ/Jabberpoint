@@ -16,7 +16,7 @@ import javax.swing.JFrame;
  * executing the actual operations requested by commands.
  *
  * @author Jesse van der Voet, Bram Suurd
- * @version 1.7 2024/04/02
+ * @version 1.0 2025/04/01
  */
 public class PresentationReceiver {
     private Presentation presentation;
@@ -183,4 +183,4 @@ public class PresentationReceiver {
             ErrorHandler.handleGeneralError(ex, parentFrame);
         }
     }
-} 
+}

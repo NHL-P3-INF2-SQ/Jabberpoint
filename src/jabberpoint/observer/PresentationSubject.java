@@ -3,6 +3,9 @@ package jabberpoint.observer;
 /**
  * Interface for objects that can be observed for presentation changes.
  * Part of the Observer pattern implementation for presentation state changes.
+ *
+ * @author Jesse van der Voet, Bram Suurd
+ * @version 1.0 2025/04/01
  */
 public interface PresentationSubject {
     /**
@@ -23,4 +26,4 @@ public interface PresentationSubject {
      * Notifies all registered observers of a presentation change.
      */
     void notifyObservers();
-} 
+}
