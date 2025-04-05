@@ -22,6 +22,10 @@ public class DemoPresentation extends Accessor {
 	 */
 	@Override
 	public void loadFile(Presentation presentation, String unusedFilename) {
+		// If content is present for whatever reason, wipe it.
+		presentation.clear();
+
+
 		presentation.setTitle("Demo Presentation");
 		
 		// Create first slide
