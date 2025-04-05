@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2167a196-462f-4819-96a5-0b061b6fc0e4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/jabberpoint/io/XMLAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jabberpoint/io/XMLAccessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +53,7 @@
     "Application.JabberPoint.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
     "JUnit.AboutBoxTest.executor": "Run",
+    "JUnit.AccessorTest.executor": "Debug",
     "JUnit.All in jabberpoint.executor": "Coverage",
     "JUnit.CommandTest.executor": "Coverage",
     "JUnit.NewPresentationCommandTest.executor": "Run",
@@ -61,11 +62,23 @@
     "JUnit.PresentationTest.executor": "Run",
     "JUnit.PresentationTest.testAddSlide.executor": "Run",
     "JUnit.PreviousSlideCommandTest.executor": "Run",
+    "JUnit.StyleTest.executor": "Run",
+    "JUnit.StyleTest.testFontScaling.executor": "Run",
+    "JUnit.StyleTest.testLargeValues.executor": "Run",
+    "JUnit.StyleTest.testNegativeValues.executor": "Run",
+    "JUnit.StyleTest.testStyleInitialization.executor": "Run",
+    "JUnit.XMLAccessorTest.executor": "Run",
+    "JUnit.XMLReaderTest.executor": "Run",
+    "JUnit.XMLReaderTest.testLoadValidXMLFile.executor": "Debug",
+    "JUnit.XMLReaderWriterTest.executor": "Run",
+    "JUnit.XMLReaderWriterTest.testWriteToInvalidLocation.executor": "Run",
+    "JUnit.XMLWriterTest.executor": "Run",
     "JUnit.command in jabberpoint.executor": "Run",
     "JUnit.factory in jabberpoint.executor": "Run",
     "JUnit.jabberpoint in jabberpoint (1).executor": "Run",
     "JUnit.jabberpoint in jabberpoint.executor": "Coverage",
     "JUnit.jabberpoint.command in jabberpoint.executor": "Coverage",
+    "JUnit.jabberpoint.io in jabberpoint.executor": "Run",
     "JUnit.jabberpoint.observer in jabberpoint.executor": "Run",
     "JUnit.model in jabberpoint.executor": "Coverage",
     "JUnit.test in jabberpoint.executor": "Coverage",
@@ -125,65 +138,62 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StyleTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="XMLReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="jabberpoint" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="jabberpoint.model.*" />
+          <option name="PATTERN" value="jabberpoint.io.xml.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="jabberpoint.model" />
-      <option name="MAIN_CLASS_NAME" value="jabberpoint.model.StyleTest" />
+      <option name="PACKAGE_NAME" value="jabberpoint.io.xml" />
+      <option name="MAIN_CLASS_NAME" value="jabberpoint.io.xml.XMLReaderTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StyleTest.testFontScaling" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="XMLReaderTest.testLoadValidXMLFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="jabberpoint" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="jabberpoint.model.*" />
+          <option name="PATTERN" value="jabberpoint.io.xml.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="jabberpoint.model" />
-      <option name="MAIN_CLASS_NAME" value="jabberpoint.model.StyleTest" />
-      <option name="METHOD_NAME" value="testFontScaling" />
+      <option name="PACKAGE_NAME" value="jabberpoint.io.xml" />
+      <option name="MAIN_CLASS_NAME" value="jabberpoint.io.xml.XMLReaderTest" />
+      <option name="METHOD_NAME" value="testLoadValidXMLFile" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StyleTest.testNegativeValues" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="XMLWriterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="jabberpoint" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="jabberpoint.model.*" />
+          <option name="PATTERN" value="jabberpoint.io.xml.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="jabberpoint.model" />
-      <option name="MAIN_CLASS_NAME" value="jabberpoint.model.StyleTest" />
-      <option name="METHOD_NAME" value="testNegativeValues" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="jabberpoint.io.xml" />
+      <option name="MAIN_CLASS_NAME" value="jabberpoint.io.xml.XMLWriterTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StyleTest.testStyleInitialization" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="jabberpoint.io in jabberpoint" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="jabberpoint" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="jabberpoint.model.*" />
+          <option name="PATTERN" value="jabberpoint.io.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="jabberpoint.model" />
-      <option name="MAIN_CLASS_NAME" value="jabberpoint.model.StyleTest" />
-      <option name="METHOD_NAME" value="testStyleInitialization" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="jabberpoint.io" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -199,19 +209,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.JabberPoint" />
-      <item itemvalue="JUnit.StyleTest" />
-      <item itemvalue="JUnit.StyleTest.testFontScaling" />
-      <item itemvalue="JUnit.StyleTest.testNegativeValues" />
-      <item itemvalue="JUnit.StyleTest.testStyleInitialization" />
+      <item itemvalue="JUnit.XMLReaderTest" />
+      <item itemvalue="JUnit.XMLReaderTest.testLoadValidXMLFile" />
+      <item itemvalue="JUnit.XMLWriterTest" />
+      <item itemvalue="JUnit.jabberpoint.io in jabberpoint" />
       <item itemvalue="JUnit.All in jabberpoint" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in jabberpoint" />
-        <item itemvalue="JUnit.StyleTest" />
-        <item itemvalue="JUnit.StyleTest.testFontScaling" />
-        <item itemvalue="JUnit.StyleTest.testNegativeValues" />
-        <item itemvalue="JUnit.StyleTest.testStyleInitialization" />
+        <item itemvalue="JUnit.XMLReaderTest.testLoadValidXMLFile" />
+        <item itemvalue="JUnit.XMLReaderTest" />
+        <item itemvalue="JUnit.jabberpoint.io in jabberpoint" />
+        <item itemvalue="JUnit.XMLWriterTest" />
       </list>
     </recent_temporary>
   </component>
@@ -253,6 +263,22 @@
       </map>
     </option>
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/jabberpoint/io/xml/XMLReader.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/test/jabberpoint/io/xml/XMLReaderTest.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Jabberpoint$CommandTest.ic" NAME="CommandTest Coverage Results" MODIFIED="1743850017836" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>jabberpoint.command.*</FILTER>
@@ -261,10 +287,10 @@
     <SUITE FILE_PATH="coverage/Jabberpoint$PreviousSlideCommandTest.ic" NAME="PreviousSlideCommandTest Coverage Results" MODIFIED="1743857604928" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>jabberpoint.command.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/Jabberpoint$All_in_jabberpoint.ic" NAME="All in jabberpoint Coverage Results" MODIFIED="1743759832629" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/Jabberpoint$CommandTest_testNewPresentationCommand.ic" NAME="CommandTest.testNewPresentationCommand Coverage Results" MODIFIED="1743851328337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>jabberpoint.command.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/Jabberpoint$All_in_jabberpoint.ic" NAME="All in jabberpoint Coverage Results" MODIFIED="1743863278861" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/Jabberpoint$PresentationObserverTest.ic" NAME="PresentationObserverTest Coverage Results" MODIFIED="1743848688010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>jabberpoint.observer.*</FILTER>
     </SUITE>
