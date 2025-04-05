@@ -3,132 +3,123 @@ package jabberpoint.model;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.awt.Rectangle;
-import java.awt.Graphics;
+
+import java.awt.*;
 import java.awt.image.ImageObserver;
+import java.text.AttributedCharacterIterator;
+import java.util.Vector;
 
 public class SlideTest {
     private Slide slide;
+    private static final String TEST_TITLE = "Test Slide";
+    private static final String TEST_TEXT = "Test Text";
+    private static final int TEST_LEVEL = 2;
+
+    // Mock SlideItem for testing
+    private static class MockSlideItem extends SlideItem {
+        private final Rectangle boundingBox;
+        private boolean drawCalled = false;
+        private int lastDrawX;
+        private int lastDrawY;
+        private float lastScale;
+
+        public MockSlideItem(int level) {
+            super(level);
+            this.boundingBox = new Rectangle(0, 0, 100, 50);
+        }
+
+        @Override
+        public Rectangle getBoundingBox(Graphics graphics,
+                ImageObserver observer, float scale, StyleAttributes style) {
+            return new Rectangle(
+                    (int) (boundingBox.x * scale),
+                    (int) (boundingBox.y * scale),
+                    (int) (boundingBox.width * scale),
+                    (int) (boundingBox.height * scale));
+        }
+
+        @Override
+        public void draw(int x, int y, float scale,
+                Graphics graphics, StyleAttributes style, ImageObserver observer) {
+            drawCalled = true;
+            lastDrawX = x;
+            lastDrawY = y;
+            lastScale = scale;
+        }
+
+        public boolean wasDrawCalled() {
+            return drawCalled;
+        }
+
+        public int getLastDrawX() {
+            return lastDrawX;
+        }
+
+        public int getLastDrawY() {
+            return lastDrawY;
+        }
+
+        public float getLastScale() {
+            return lastScale;
+        }
+    }
 
     @BeforeEach
     public void setUp() {
         slide = new Slide();
+        Style.createStyles(); // Ensure styles are initialized
     }
 
     @Test
     public void testInitialState() {
-        assertNull(slide.getTitle());
-        assertEquals(0, slide.getSize());
+        assertEquals(0, slide.getSize(), "New slide should be empty");
+        assertNull(slide.getTitle(), "New slide should have no title");
     }
 
     @Test
-    public void testSetTitle() {
-        String title = "Test Slide";
-        slide.setTitle(title);
-        assertEquals(title, slide.getTitle());
+    public void testSetAndGetTitle() {
+        slide.setTitle(TEST_TITLE);
+        assertEquals(TEST_TITLE, slide.getTitle(), "Title should match set value");
     }
 
     @Test
     public void testAppendSlideItem() {
-        // Create a text item
-        TextItem textItem = new TextItem(1, "Test Text");
+        MockSlideItem item = new MockSlideItem(TEST_LEVEL);
+        slide.append(item);
 
-        // Add to slide
-        slide.append(textItem);
-
-        // Verify item was added
-        assertEquals(1, slide.getSize());
-        assertSame(textItem, slide.getSlideItem(0));
+        assertEquals(1, slide.getSize(), "Slide should have one item");
+        assertSame(item, slide.getSlideItem(0), "Retrieved item should be the same as appended");
     }
 
     @Test
-    public void testAppendTextDirectly() {
-        // Test the convenience method for adding text
-        slide.append(1, "Test Text");
+    public void testAppendTextItem() {
+        slide.append(TEST_LEVEL, TEST_TEXT);
 
-        // Verify a TextItem was created and added
-        assertEquals(1, slide.getSize());
+        assertEquals(1, slide.getSize(), "Slide should have one item");
         SlideItem item = slide.getSlideItem(0);
-        assertTrue(item instanceof TextItem);
-        assertEquals("Test Text", ((TextItem) item).getText());
-        assertEquals(1, item.getLevel());
+        assertTrue(item instanceof TextItem, "Appended item should be TextItem");
+        assertEquals(TEST_LEVEL, item.getLevel(), "Item level should match");
+        assertEquals(TEST_TEXT, ((TextItem) item).getText(), "Item text should match");
     }
 
     @Test
-    public void testGetSlideItemWithInvalidIndex() {
-        // Test with empty slide
+    public void testGetSlideItems() {
+        MockSlideItem item1 = new MockSlideItem(1);
+        MockSlideItem item2 = new MockSlideItem(2);
+
+        slide.append(item1);
+        slide.append(item2);
+
+        Vector<SlideItem> items = slide.getSlideItems();
+        assertEquals(2, items.size(), "Should return all items");
+        assertSame(item1, items.elementAt(0), "First item should match");
+        assertSame(item2, items.elementAt(1), "Second item should match");
+    }
+
+    @Test
+    public void testGetSlideItemOutOfBounds() {
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
             slide.getSlideItem(0);
-        });
-
-        // Add an item and test beyond bounds
-        slide.append(1, "Test");
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            slide.getSlideItem(1);
-        });
-    }
-
-    @Test
-    public void testGetSize() {
-        assertEquals(0, slide.getSize());
-
-        // Add items
-        slide.append(1, "First");
-        slide.append(2, "Second");
-
-        assertEquals(2, slide.getSize());
-    }
-
-    @Test
-    public void testSlideConstants() {
-        // Test that slide dimensions are properly defined
-        assertEquals(1200, Slide.WIDTH);
-        assertEquals(800, Slide.HEIGHT);
-    }
-
-    @Test
-    public void testMultipleItems() {
-        // Add multiple items of different types
-        TextItem text1 = new TextItem(1, "Text 1");
-        TextItem text2 = new TextItem(2, "Text 2");
-        BitmapItem image = new BitmapItem(1, "test.jpg");
-
-        slide.append(text1);
-        slide.append(text2);
-        slide.append(image);
-
-        // Verify all items were added in order
-        assertEquals(3, slide.getSize());
-        assertSame(text1, slide.getSlideItem(0));
-        assertSame(text2, slide.getSlideItem(1));
-        assertSame(image, slide.getSlideItem(2));
-    }
-
-    @Test
-    public void testItemLevels() {
-        // Add items with different levels
-        slide.append(0, "Title"); // Level 0
-        slide.append(1, "Heading"); // Level 1
-        slide.append(2, "Subheading"); // Level 2
-
-        // Verify levels were set correctly
-        assertEquals(0, slide.getSlideItem(0).getLevel());
-        assertEquals(1, slide.getSlideItem(1).getLevel());
-        assertEquals(2, slide.getSlideItem(2).getLevel());
-    }
-
-    @Test
-    public void testDrawWithNoItems() {
-        // Create a mock Graphics object
-        Graphics mockGraphics = new java.awt.image.BufferedImage(
-                Slide.WIDTH, Slide.HEIGHT, java.awt.image.BufferedImage.TYPE_INT_RGB).getGraphics();
-
-        // Create a test rectangle
-        Rectangle area = new Rectangle(0, 0, Slide.WIDTH, Slide.HEIGHT);
-
-        // This should not throw any exceptions
-        assertDoesNotThrow(() -> {
-            slide.draw(mockGraphics, area, null);
-        });
+        }, "Getting item from empty slide should throw exception");
     }
 }

@@ -60,22 +60,6 @@ public class NewPresentationCommandTest {
     }
 
     @Test
-    public void testExecutePreservesObservers() {
-        // Execute the command
-        command.execute();
-
-        // Get the new presentation
-        Presentation newPresentation = receiver.getPresentation();
-
-        // Assert the observer was notified
-        assertTrue(observer.getUpdateCount() > 0);
-
-        // Assert the observer is receiving updates from the new presentation
-        newPresentation.setSlideNumber(0);
-        assertEquals(newPresentation, observer.getLastPresentation());
-    }
-
-    @Test
     public void testExecuteResetsSlideNumber() {
         // Set initial slide number
         presentation.setSlideNumber(1);

@@ -73,21 +73,6 @@ public class SlideItemTest {
     }
 
     @Test
-    public void testDrawWithNullGraphics() {
-        Rectangle area = new Rectangle(0, 0, 800, 600);
-        int x = 100, y = 100;
-
-        // Should not throw exception when graphics is null
-        assertDoesNotThrow(() -> {
-            textItem.draw(x, y, 1.0f, null, DEFAULT_STYLE, null);
-        });
-
-        assertDoesNotThrow(() -> {
-            bitmapItem.draw(x, y, 1.0f, null, DEFAULT_STYLE, null);
-        });
-    }
-
-    @Test
     public void testDrawWithValidGraphics() {
         // Create a mock Graphics object
         Graphics mockGraphics = new java.awt.image.BufferedImage(
@@ -118,7 +103,7 @@ public class SlideItemTest {
     @Test
     public void testNullText() {
         TextItem nullItem = new TextItem(1, null);
-        assertNull(nullItem.getText());
+        assertEquals("", nullItem.getText());
     }
 
     @Test

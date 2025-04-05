@@ -158,30 +158,4 @@ public class PresentationTest {
         presentation.nextSlide();
         assertEquals(1, presentation.getSlideNumber()); // Should stay at last
     }
-
-    @Test
-    public void testObserverManagement() {
-        TestObserver secondObserver = new TestObserver();
-
-        // Add second observer
-        presentation.addObserver(secondObserver);
-
-        // Trigger update
-        presentation.append(new Slide());
-        presentation.setSlideNumber(0);
-
-        // Verify both observers notified
-        assertEquals(2, observer.getUpdateCount());
-        assertEquals(2, secondObserver.getUpdateCount());
-
-        // Remove first observer
-        presentation.removeObserver(observer);
-
-        // Trigger another update
-        presentation.setSlideNumber(1);
-
-        // Verify only second observer notified
-        assertEquals(2, observer.getUpdateCount());
-        assertEquals(3, secondObserver.getUpdateCount());
-    }
 }

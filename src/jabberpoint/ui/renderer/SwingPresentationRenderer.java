@@ -38,8 +38,12 @@ public class SwingPresentationRenderer implements PresentationRenderer {
     }
 
     @Override
-    public void renderSlide(Graphics graphics, Slide slide, Rectangle area, 
+    public void renderSlide(Graphics graphics, Slide slide, Rectangle area,
             int slideNumber, int totalSlides) {
+        if(graphics == null) {
+            throw new NullPointerException("Graphics is null");
+        }
+
         // Fill background
         graphics.setColor(BGCOLOR);
         graphics.fillRect(0, 0, area.width, area.height);

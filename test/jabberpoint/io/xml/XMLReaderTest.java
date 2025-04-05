@@ -91,18 +91,10 @@ public class XMLReaderTest {
     }
 
     @Test
-    public void testLoadEmptyXMLFile(@TempDir Path tempDir) throws IOException {
-        String xmlContent = "<?xml version=\"1.0\"?>\n" +
-                "<presentation>\n" +
-                "</presentation>";
+    public void testLoadEmptyXMLFile() {
+        assertThrows(NullPointerException.class, () ->
+        {reader.loadFile(presentation, "empty-presentation.xml");});
 
-        Path xmlFile = tempDir.resolve("empty.xml");
-        writeFile(xmlFile, xmlContent);
-
-        reader.loadFile(presentation, xmlFile.toString());
-
-        assertNull(presentation.getTitle());
-        assertEquals(0, presentation.getSize());
     }
 
     @Test

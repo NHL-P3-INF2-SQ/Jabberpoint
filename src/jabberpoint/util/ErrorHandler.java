@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  * @version 1.0 2025/04/01
  */
 public final class ErrorHandler {
-    
+
     /**
      * Standard error messages
      */
@@ -32,7 +32,7 @@ public final class ErrorHandler {
     /**
      * Handles IO-related errors with a standardized error dialog.
      *
-     * @param ex The exception that occurred
+     * @param ex     The exception that occurred
      * @param parent The parent component for the error dialog
      */
     public static void handleIOError(Exception ex, Component parent) {
@@ -42,7 +42,7 @@ public final class ErrorHandler {
     /**
      * Handles XML parsing errors with a standardized error dialog.
      *
-     * @param ex The exception that occurred
+     * @param ex     The exception that occurred
      * @param parent The parent component for the error dialog
      */
     public static void handleParserError(Exception ex, Component parent) {
@@ -53,7 +53,7 @@ public final class ErrorHandler {
      * Handles validation errors with a standardized error dialog.
      *
      * @param message The validation error message
-     * @param parent The parent component for the error dialog
+     * @param parent  The parent component for the error dialog
      */
     public static void handleValidationError(String message, Component parent) {
         showErrorDialog(VALIDATION_ERROR_PREFIX + message, parent);
@@ -62,7 +62,7 @@ public final class ErrorHandler {
     /**
      * Handles general application errors with a standardized error dialog.
      *
-     * @param ex The exception that occurred
+     * @param ex     The exception that occurred
      * @param parent The parent component for the error dialog
      */
     public static void handleGeneralError(Exception ex, Component parent) {
@@ -73,14 +73,13 @@ public final class ErrorHandler {
      * Shows a standardized error dialog with the specified message.
      *
      * @param message The error message to display
-     * @param parent The parent component for the error dialog
+     * @param parent  The parent component for the error dialog
      */
     private static void showErrorDialog(String message, Component parent) {
         JOptionPane.showMessageDialog(
-            parent,
-            message,
-            ERROR_TITLE,
-            JOptionPane.ERROR_MESSAGE
-        );
+                parent,
+                message,
+                ERROR_TITLE,
+                JOptionPane.ERROR_MESSAGE);
     }
 }
