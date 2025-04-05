@@ -2,6 +2,8 @@ package jabberpoint.io;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+
 import jabberpoint.model.Presentation;
 import jabberpoint.io.xml.*;
 
@@ -18,7 +20,7 @@ public class XMLAccessor extends Accessor {
     
     public XMLAccessor() {
         // Initialize serializers
-        var serializers = Arrays.asList(
+        List<SlideItemSerializer> serializers = Arrays.asList(
             new TextItemSerializer(),
             new BitmapItemSerializer()
         );
