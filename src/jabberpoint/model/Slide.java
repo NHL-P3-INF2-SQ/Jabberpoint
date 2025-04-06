@@ -1,6 +1,6 @@
 package jabberpoint.model;
 
-import jabberpoint.factory.SlideItemFactory;
+import jabberpoint.factory.SlideItemFactoryProvider;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
@@ -15,22 +15,22 @@ import java.util.Vector;
  * @version 1.0 2025/04/01
  */
 public class Slide {
-	
+
 	/**
 	 * The standard width of a slide in pixels.
 	 */
 	public static final int WIDTH = 1200;
-	
+
 	/**
 	 * The standard height of a slide in pixels.
 	 */
 	public static final int HEIGHT = 800;
-	
+
 	/**
 	 * The title of the slide.
 	 */
 	private String title;
-	
+
 	/**
 	 * The collection of items on the slide.
 	 */
@@ -73,11 +73,11 @@ public class Slide {
 	/**
 	 * Creates and adds a text item to the slide.
 	 *
-	 * @param level The indentation level
+	 * @param level   The indentation level
 	 * @param message The text content
 	 */
 	public void append(int level, String message) {
-		this.append(SlideItemFactory.createTextItem(level, message));
+		this.append(SlideItemFactoryProvider.createSlideItem("text", level, message));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class Slide {
 	 * Draws the slide on the specified graphics context.
 	 *
 	 * @param graphics The graphics context
-	 * @param area The area to draw in
+	 * @param area     The area to draw in
 	 * @param observer The image observer
 	 */
 	public void draw(Graphics graphics, Rectangle area, ImageObserver observer) {
@@ -141,8 +141,7 @@ public class Slide {
 	 */
 	private float getScale(Rectangle area) {
 		return Math.min(
-			(float) area.width / WIDTH,
-			(float) area.height / HEIGHT
-		);
+				(float) area.width / WIDTH,
+				(float) area.height / HEIGHT);
 	}
 }

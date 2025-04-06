@@ -47,65 +47,65 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "Application.JabberPoint.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.AboutBoxTest.executor": "Run",
-    "JUnit.AccessorTest.executor": "Debug",
-    "JUnit.All in jabberpoint.executor": "Coverage",
-    "JUnit.CommandTest.executor": "Coverage",
-    "JUnit.NewPresentationCommandTest.executor": "Run",
-    "JUnit.PresentationObserverTest.executor": "Debug",
-    "JUnit.PresentationReceiverListenerTest.executor": "Run",
-    "JUnit.PresentationTest.executor": "Run",
-    "JUnit.PresentationTest.testAddSlide.executor": "Run",
-    "JUnit.PreviousSlideCommandTest.executor": "Run",
-    "JUnit.StyleTest.executor": "Run",
-    "JUnit.StyleTest.testFontScaling.executor": "Run",
-    "JUnit.StyleTest.testLargeValues.executor": "Run",
-    "JUnit.StyleTest.testNegativeValues.executor": "Run",
-    "JUnit.StyleTest.testStyleInitialization.executor": "Run",
-    "JUnit.XMLAccessorTest.executor": "Run",
-    "JUnit.XMLReaderTest.executor": "Run",
-    "JUnit.XMLReaderTest.testLoadValidXMLFile.executor": "Debug",
-    "JUnit.XMLReaderWriterTest.executor": "Run",
-    "JUnit.XMLReaderWriterTest.testWriteToInvalidLocation.executor": "Run",
-    "JUnit.XMLWriterTest.executor": "Run",
-    "JUnit.command in jabberpoint.executor": "Run",
-    "JUnit.factory in jabberpoint.executor": "Run",
-    "JUnit.jabberpoint in jabberpoint (1).executor": "Run",
-    "JUnit.jabberpoint in jabberpoint.executor": "Coverage",
-    "JUnit.jabberpoint.command in jabberpoint.executor": "Coverage",
-    "JUnit.jabberpoint.io in jabberpoint.executor": "Run",
-    "JUnit.jabberpoint.observer in jabberpoint.executor": "Run",
-    "JUnit.model in jabberpoint.executor": "Coverage",
-    "JUnit.test in jabberpoint.executor": "Coverage",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Shell Script.build.sh.executor": "Run",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "unit-tests",
-    "kotlin-language-version-configured": "true",
-    "last_directory_selection": "/Users/jesse/Documents/Git/Jabberpoint/test",
-    "last_opened_file_path": "/Users/jesse/Documents/Git/Jabberpoint",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "configurable.group.language",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;Application.JabberPoint.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.AboutBoxTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AccessorTest.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.All in jabberpoint.executor&quot;: &quot;Coverage&quot;,
+    &quot;JUnit.CommandTest.executor&quot;: &quot;Coverage&quot;,
+    &quot;JUnit.NewPresentationCommandTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PresentationObserverTest.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.PresentationReceiverListenerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PresentationTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PresentationTest.testAddSlide.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PreviousSlideCommandTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StyleTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StyleTest.testFontScaling.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StyleTest.testLargeValues.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StyleTest.testNegativeValues.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StyleTest.testStyleInitialization.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.XMLAccessorTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.XMLReaderTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.XMLReaderTest.testLoadValidXMLFile.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.XMLReaderWriterTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.XMLReaderWriterTest.testWriteToInvalidLocation.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.XMLWriterTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.command in jabberpoint.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.factory in jabberpoint.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.jabberpoint in jabberpoint (1).executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.jabberpoint in jabberpoint.executor&quot;: &quot;Coverage&quot;,
+    &quot;JUnit.jabberpoint.command in jabberpoint.executor&quot;: &quot;Coverage&quot;,
+    &quot;JUnit.jabberpoint.io in jabberpoint.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.jabberpoint.observer in jabberpoint.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.model in jabberpoint.executor&quot;: &quot;Coverage&quot;,
+    &quot;JUnit.test in jabberpoint.executor&quot;: &quot;Coverage&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Shell Script.build.sh.executor&quot;: &quot;Run&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;unit-tests&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;/Users/jesse/Documents/Git/Jabberpoint/test&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/jesse/Documents/Git/Jabberpoint&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.language&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -126,6 +126,14 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in Jabberpoint" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Jabberpoint" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -169,21 +177,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="XMLWriterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="jabberpoint" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="jabberpoint.io.xml.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="jabberpoint.io.xml" />
-      <option name="MAIN_CLASS_NAME" value="jabberpoint.io.xml.XMLWriterTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="jabberpoint.io in jabberpoint" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="jabberpoint" />
       <extension name="coverage">
@@ -209,19 +202,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.JabberPoint" />
+      <item itemvalue="JUnit.All in Jabberpoint" />
       <item itemvalue="JUnit.XMLReaderTest" />
       <item itemvalue="JUnit.XMLReaderTest.testLoadValidXMLFile" />
-      <item itemvalue="JUnit.XMLWriterTest" />
       <item itemvalue="JUnit.jabberpoint.io in jabberpoint" />
       <item itemvalue="JUnit.All in jabberpoint" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in jabberpoint" />
+        <item itemvalue="JUnit.All in Jabberpoint" />
         <item itemvalue="JUnit.XMLReaderTest.testLoadValidXMLFile" />
         <item itemvalue="JUnit.XMLReaderTest" />
         <item itemvalue="JUnit.jabberpoint.io in jabberpoint" />
-        <item itemvalue="JUnit.XMLWriterTest" />
       </list>
     </recent_temporary>
   </component>
