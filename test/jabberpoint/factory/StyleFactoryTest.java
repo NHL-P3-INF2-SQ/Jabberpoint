@@ -1,101 +1,201 @@
 package jabberpoint.factory;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import jabberpoint.model.StyleAttributes;
 import java.awt.Color;
 
 public class StyleFactoryTest {
+    private StyleFactory factory;
+
+    @BeforeEach
+    public void setUp() {
+        factory = new DefaultStyleFactory();
+    }
 
     @Test
-    public void testCreateTitleStyle() {
-        StyleAttributes style = StyleFactory.createTitleStyle();
+    public void testDefaultFactoryCreateStyle() {
+        StyleAttributes style = factory.createStyle();
 
-        // Assert title style properties
+        assertEquals(40, style.getIndent());
+        assertEquals(Color.black, style.getColor());
+        assertEquals(32, style.getFontSize());
+        assertEquals(10, style.getLeading());
+    }
+
+    @Test
+    public void testDefaultFactoryCreateTitleStyle() {
+        StyleAttributes style = factory.createTitleStyle();
+
         assertEquals(0, style.getIndent());
         assertEquals(Color.red, style.getColor());
+        assertEquals(48, style.getFontSize());
         assertEquals(20, style.getLeading());
-
-        // Test font size with default scale
-        assertEquals(48, style.getFont(1.0f).getSize());
     }
 
     @Test
-    public void testCreateHeadingStyle() {
-        StyleAttributes style = StyleFactory.createHeadingStyle();
+    public void testDefaultFactoryCreateHeadingStyle() {
+        StyleAttributes style = factory.createHeadingStyle();
 
-        // Assert heading style properties
         assertEquals(20, style.getIndent());
         assertEquals(Color.blue, style.getColor());
+        assertEquals(40, style.getFontSize());
         assertEquals(10, style.getLeading());
-
-        // Test font size with default scale
-        assertEquals(40, style.getFont(1.0f).getSize());
     }
 
     @Test
-    public void testCreateSubheadingStyle() {
-        StyleAttributes style = StyleFactory.createSubheadingStyle();
+    public void testDefaultFactoryCreateSubheadingStyle() {
+        StyleAttributes style = factory.createSubheadingStyle();
 
-        // Assert subheading style properties
         assertEquals(50, style.getIndent());
         assertEquals(Color.black, style.getColor());
+        assertEquals(36, style.getFontSize());
         assertEquals(10, style.getLeading());
-
-        // Test font size with default scale
-        assertEquals(36, style.getFont(1.0f).getSize());
     }
 
     @Test
-    public void testCreateBodyStyle() {
-        StyleAttributes style = StyleFactory.createBodyStyle();
+    public void testDefaultFactoryCreateBodyStyle() {
+        StyleAttributes style = factory.createBodyStyle();
 
-        // Assert body style properties
         assertEquals(70, style.getIndent());
         assertEquals(Color.black, style.getColor());
+        assertEquals(30, style.getFontSize());
         assertEquals(10, style.getLeading());
-
-        // Test font size with default scale
-        assertEquals(30, style.getFont(1.0f).getSize());
     }
 
     @Test
-    public void testCreateDetailStyle() {
-        StyleAttributes style = StyleFactory.createDetailStyle();
+    public void testDefaultFactoryCreateDetailStyle() {
+        StyleAttributes style = factory.createDetailStyle();
 
-        // Assert detail style properties
         assertEquals(90, style.getIndent());
         assertEquals(Color.black, style.getColor());
+        assertEquals(24, style.getFontSize());
         assertEquals(10, style.getLeading());
-
-        // Test font size with default scale
-        assertEquals(24, style.getFont(1.0f).getSize());
     }
 
     @Test
-    public void testCreateCustomStyle() {
-        // Create a custom style with specific properties
+    public void testDefaultFactoryCreateCustomStyle() {
         int indent = 25;
         Color color = Color.green;
         int fontSize = 16;
         int leading = 15;
 
-        StyleAttributes style = StyleFactory.createCustomStyle(indent, color, fontSize, leading);
+        StyleAttributes style = factory.createCustomStyle(indent, color, fontSize, leading);
 
-        // Assert custom style properties
         assertEquals(indent, style.getIndent());
         assertEquals(color, style.getColor());
+        assertEquals(fontSize, style.getFontSize());
         assertEquals(leading, style.getLeading());
-        assertEquals(fontSize, style.getFont(1.0f).getSize());
+    }
+
+    @Test
+    public void testProviderGetFactory() {
+        StyleFactory providerFactory = StyleFactoryProvider.getFactory();
+        assertNotNull(providerFactory);
+        assertTrue(providerFactory instanceof DefaultStyleFactory);
+    }
+
+    @Test
+    public void testProviderCreateTitleStyle() {
+        StyleAttributes style = StyleFactoryProvider.createTitleStyle();
+
+        assertEquals(0, style.getIndent());
+        assertEquals(Color.red, style.getColor());
+        assertEquals(48, style.getFontSize());
+        assertEquals(20, style.getLeading());
+    }
+
+    @Test
+    public void testProviderCreateHeadingStyle() {
+        StyleAttributes style = StyleFactoryProvider.createHeadingStyle();
+
+        assertEquals(20, style.getIndent());
+        assertEquals(Color.blue, style.getColor());
+        assertEquals(40, style.getFontSize());
+        assertEquals(10, style.getLeading());
+    }
+
+    @Test
+    public void testProviderCreateSubheadingStyle() {
+        StyleAttributes style = StyleFactoryProvider.createSubheadingStyle();
+
+        assertEquals(50, style.getIndent());
+        assertEquals(Color.black, style.getColor());
+        assertEquals(36, style.getFontSize());
+        assertEquals(10, style.getLeading());
+    }
+
+    @Test
+    public void testProviderCreateBodyStyle() {
+        StyleAttributes style = StyleFactoryProvider.createBodyStyle();
+
+        assertEquals(70, style.getIndent());
+        assertEquals(Color.black, style.getColor());
+        assertEquals(30, style.getFontSize());
+        assertEquals(10, style.getLeading());
+    }
+
+    @Test
+    public void testProviderCreateDetailStyle() {
+        StyleAttributes style = StyleFactoryProvider.createDetailStyle();
+
+        assertEquals(90, style.getIndent());
+        assertEquals(Color.black, style.getColor());
+        assertEquals(24, style.getFontSize());
+        assertEquals(10, style.getLeading());
+    }
+
+    @Test
+    public void testProviderCreateCustomStyle() {
+        int indent = 25;
+        Color color = Color.green;
+        int fontSize = 16;
+        int leading = 15;
+
+        StyleAttributes style = StyleFactoryProvider.createCustomStyle(indent, color, fontSize, leading);
+
+        assertEquals(indent, style.getIndent());
+        assertEquals(color, style.getColor());
+        assertEquals(fontSize, style.getFontSize());
+        assertEquals(leading, style.getLeading());
     }
 
     @Test
     public void testFontScaling() {
-        StyleAttributes style = StyleFactory.createTitleStyle();
-
-        // Test font scaling
+        StyleAttributes style = factory.createTitleStyle();
         float scale = 1.5f;
         int expectedSize = Math.round(48 * scale); // 48 is the base size for title style
         assertEquals(expectedSize, style.getFont(scale).getSize());
+    }
+
+    @Test
+    public void testStyleHierarchy() {
+        // Test that indentation increases with each style level
+        StyleAttributes titleStyle = factory.createTitleStyle();
+        StyleAttributes headingStyle = factory.createHeadingStyle();
+        StyleAttributes subheadingStyle = factory.createSubheadingStyle();
+        StyleAttributes bodyStyle = factory.createBodyStyle();
+        StyleAttributes detailStyle = factory.createDetailStyle();
+
+        assertTrue(titleStyle.getIndent() < headingStyle.getIndent());
+        assertTrue(headingStyle.getIndent() < subheadingStyle.getIndent());
+        assertTrue(subheadingStyle.getIndent() < bodyStyle.getIndent());
+        assertTrue(bodyStyle.getIndent() < detailStyle.getIndent());
+    }
+
+    @Test
+    public void testFontSizeHierarchy() {
+        // Test that font size decreases with each style level
+        StyleAttributes titleStyle = factory.createTitleStyle();
+        StyleAttributes headingStyle = factory.createHeadingStyle();
+        StyleAttributes subheadingStyle = factory.createSubheadingStyle();
+        StyleAttributes bodyStyle = factory.createBodyStyle();
+        StyleAttributes detailStyle = factory.createDetailStyle();
+
+        assertTrue(titleStyle.getFontSize() > headingStyle.getFontSize());
+        assertTrue(headingStyle.getFontSize() > subheadingStyle.getFontSize());
+        assertTrue(subheadingStyle.getFontSize() > bodyStyle.getFontSize());
+        assertTrue(bodyStyle.getFontSize() > detailStyle.getFontSize());
     }
 }
