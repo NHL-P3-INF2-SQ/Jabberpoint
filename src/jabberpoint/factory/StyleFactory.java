@@ -1,7 +1,6 @@
 package jabberpoint.factory;
 
 import java.awt.Color;
-import jabberpoint.model.Style;
 import jabberpoint.model.StyleAttributes;
 
 /**

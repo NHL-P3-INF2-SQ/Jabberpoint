@@ -1,9 +1,6 @@
 package jabberpoint.factory;
 
 import jabberpoint.model.SlideItem;
-import jabberpoint.model.TextItem;
-import jabberpoint.model.BitmapItem;
-import jabberpoint.util.ErrorHandler;
 
 /**
  * Abstract factory interface for creating slide items.

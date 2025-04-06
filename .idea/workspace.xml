@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2167a196-462f-4819-96a5-0b061b6fc0e4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jabberpoint/factory/BitmapItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jabberpoint/factory/BitmapItemFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jabberpoint/factory/SlideItemFactoryProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jabberpoint/factory/SlideItemFactoryProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jabberpoint/factory/SlideItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jabberpoint/factory/SlideItemFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jabberpoint/factory/StyleFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jabberpoint/factory/StyleFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jabberpoint/model/Style.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jabberpoint/model/Style.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jabberpoint/ui/SlideViewerComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jabberpoint/ui/SlideViewerComponent.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +52,7 @@
     "JUnit.AboutBoxTest.executor": "Run",
     "JUnit.AccessorTest.executor": "Debug",
     "JUnit.All in Jabberpoint.executor": "Run",
-    "JUnit.All in jabberpoint.executor": "Run",
+    "JUnit.All in jabberpoint.executor": "Coverage",
     "JUnit.CommandTest.executor": "Coverage",
     "JUnit.NewPresentationCommandTest.executor": "Run",
     "JUnit.PresentationObserverTest.executor": "Debug",
@@ -62,6 +60,7 @@
     "JUnit.PresentationTest.executor": "Run",
     "JUnit.PresentationTest.testAddSlide.executor": "Run",
     "JUnit.PreviousSlideCommandTest.executor": "Run",
+    "JUnit.StyleFactoryTest.executor": "Run",
     "JUnit.StyleTest.executor": "Run",
     "JUnit.StyleTest.testFontScaling.executor": "Run",
     "JUnit.StyleTest.testLargeValues.executor": "Run",
@@ -240,7 +239,7 @@
       <workItem from="1743607316919" duration="1289000" />
       <workItem from="1743608777811" duration="88000" />
       <workItem from="1743608872672" duration="19970000" />
-      <workItem from="1743951466386" duration="1462000" />
+      <workItem from="1743951466386" duration="1799000" />
     </task>
     <servers />
   </component>
@@ -285,7 +284,7 @@
     <SUITE FILE_PATH="coverage/Jabberpoint$CommandTest_testNewPresentationCommand.ic" NAME="CommandTest.testNewPresentationCommand Coverage Results" MODIFIED="1743851328337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>jabberpoint.command.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/Jabberpoint$All_in_jabberpoint.ic" NAME="All in jabberpoint Coverage Results" MODIFIED="1743951477676" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/Jabberpoint$All_in_jabberpoint.ic" NAME="All in jabberpoint Coverage Results" MODIFIED="1743962880879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/Jabberpoint$PresentationObserverTest.ic" NAME="PresentationObserverTest Coverage Results" MODIFIED="1743848688010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>jabberpoint.observer.*</FILTER>
     </SUITE>
