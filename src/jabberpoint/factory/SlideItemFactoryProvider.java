@@ -5,8 +5,9 @@ import jabberpoint.util.ErrorHandler;
 
 /**
  * Provider class for slide item factories.
- * This class maintains backward compatibility with the existing codebase
- * while implementing the Factory Method pattern.
+ * 
+ * @author Jesse van der Voet, Bram Suurd
+ * @version 1.0 2025/04/01
  */
 public class SlideItemFactoryProvider {
     private static final TextItemFactory textFactory = new TextItemFactory();

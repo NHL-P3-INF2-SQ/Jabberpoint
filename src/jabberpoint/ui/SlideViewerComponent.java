@@ -1,6 +1,5 @@
 package jabberpoint.ui;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -32,30 +31,14 @@ public class SlideViewerComponent extends JComponent implements PresentationObse
     private Slide slide;
     
     /**
-     * The font used for labels.
-     */
-    private final Font labelFont;
-    
-    /**
      * The presentation being displayed.
      */
     private Presentation presentation;
     
     /**
-     * The parent frame containing this component.
-     */
-    private final JFrame frame;
-    
-    /**
      * Display constants
      */
     private static final Color BGCOLOR = Color.white;
-    private static final Color COLOR = Color.black;
-    private static final String FONTNAME = "Dialog";
-    private static final int FONTSTYLE = Font.BOLD;
-    private static final int FONTHEIGHT = 10;
-    private static final int XPOS = 1100;
-    private static final int YPOS = 20;
 
     /**
      * The renderer responsible for drawing the presentation.
@@ -76,8 +59,6 @@ public class SlideViewerComponent extends JComponent implements PresentationObse
         
         this.setBackground(BGCOLOR);
         this.presentation = presentation;
-        this.labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
-        this.frame = frame;
         this.renderer = new SwingPresentationRenderer(frame);
         this.presentation.addObserver(this);
     }
