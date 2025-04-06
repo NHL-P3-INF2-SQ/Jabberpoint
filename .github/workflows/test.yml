@@ -1,0 +1,49 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+      - development
+  pull_request:
+    branches:
+      - main
+      - development
+
+jobs:
+  test:
+    name: Run JUnit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          java-package: "jdk"
+
+      - name: Install xvfb
+        run: sudo apt-get install -y xvfb
+
+      - name: Create build directory
+        run: mkdir -p build
+
+      - name: Make test script executable
+        run: chmod +x run-tests.sh
+
+      - name: Run tests with Xvfb
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" ./run-tests.sh
+        env:
+          DISPLAY: ":99.0"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: build/test-results
+          retention-days: 7

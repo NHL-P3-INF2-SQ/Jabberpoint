@@ -70,18 +70,29 @@ public class XMLReader implements PresentationReader {
             }
         }
     }
-    
+
     private SlideItem deserializeItem(Element element, String kind) throws XMLParserException {
-        for (SlideItemSerializer serializer : serializers) {
-            try {
-                SlideItem item = serializer.deserialize(element);
-                if (item != null) {
-                    return item;
-                }
-            } catch (XMLParserException e) {
-                // Continue trying other serializers
-            }
+        SlideItemSerializer appropriateSerializer = null;
+        if ("text".equals(kind)) {
+            appropriateSerializer = serializers.stream()
+                    .filter(s -> s instanceof TextItemSerializer)
+                    .findFirst()
+                    .orElse(null);
+        } else if ("image".equals(kind)) {
+            appropriateSerializer = serializers.stream()
+                    .filter(s -> s instanceof BitmapItemSerializer)
+                    .findFirst()
+                    .orElse(null);
         }
-        throw new XMLParserException("No suitable serializer found for item kind: " + kind);
+
+        if (appropriateSerializer == null) {
+            throw new XMLParserException("No suitable serializer found for item kind: " + kind);
+        }
+
+        try {
+            return appropriateSerializer.deserialize(element);
+        } catch (XMLParserException e) {
+            throw new XMLParserException("Failed to deserialize item of kind: " + kind, e);
+        }
     }
 } 
