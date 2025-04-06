@@ -24,7 +24,10 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "21"
-          cache: "maven"
+          java-package: "jdk"
+
+      - name: Create build directory
+        run: mkdir -p build
 
       - name: Make test script executable
         run: chmod +x run-tests.sh
