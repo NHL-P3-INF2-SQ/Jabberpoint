@@ -54,7 +54,7 @@ jobs:
         with:
           name: jabberpoint-jar
           path: JabberPoint.jar
-          retention-days: 1
+          retention-days: 30
 
   create_release:
     needs: compile
