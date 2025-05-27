@@ -139,7 +139,15 @@ public class MenuController extends MenuBar implements PresentationReceiver.Pres
 			String pageNumberStr = JOptionPane.showInputDialog(parent, PAGENR);
 			try {
 				int pageNumber = Integer.parseInt(pageNumberStr);
-				// Use the receiver to access the current presentation
+				int slideCount = receiver.getPresentation().getSize();
+				if (slideCount == 0) {
+					ErrorHandler.handleValidationError("No slides in the presentation", parent);
+					return;
+				}
+				if (pageNumber < 1 || pageNumber > slideCount) {
+					ErrorHandler.handleValidationError("Page number must be between 1 and " + slideCount, parent);
+					return;
+				}
 				receiver.getPresentation().setSlideNumber(pageNumber - 1);
 			} catch (NumberFormatException ex) {
 				ErrorHandler.handleValidationError("Invalid page number format", parent);
